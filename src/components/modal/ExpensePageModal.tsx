@@ -12,7 +12,7 @@ const uniqueId = uuidv4();
 const ExpensePageModal = (props: Props) => {
   const { showExpenseModal, setShowExpenseModal } = useGlobalContext();
   const { expenses, setExpenses, addExpenseItem } = useFinanceContext();
-  const [expenseAmount, setExpenseAmount] = useState(0);
+  const [expenseAmount, setExpenseAmount] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [selectedCategoryName, setSelectedCategoryName] = useState("");
   const [newCategoryTitle, setNewCategoryTitle] = useState("");
@@ -50,7 +50,7 @@ const ExpensePageModal = (props: Props) => {
       }
       setSelectedCategoryId("");
       setSelectedCategoryName("");
-      setExpenseAmount(0);
+      setExpenseAmount("");
       setShowExpenseModal(false);
     }
   };
@@ -126,7 +126,7 @@ const ExpensePageModal = (props: Props) => {
                 selectedCategoryName={selectedCategoryName}
               />
             ))}
-            {expenseAmount > 0 && selectedCategoryId && (
+            {parseFloat(expenseAmount) > 0 && selectedCategoryId && (
               <button type="submit" className="btn btn-primary">
                 Add Expense
               </button>

@@ -65,7 +65,7 @@ const ExpensePageModal = (props: Props) => {
   // Create new Category
   const handleNewCategory = async () => {
     setShowNewCategory(true);
-    console.log("newCategory pressed!");
+    // console.log("newCategory pressed!");
   };
 
   return (

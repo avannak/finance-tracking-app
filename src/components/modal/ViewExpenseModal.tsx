@@ -16,7 +16,7 @@ const ViewExpenseModal = (props: Props) => {
 
   // Delete Expense Item Handler
   const deleteExpenseItemHandler = async (item: ExpenseItemObject) => {
-    console.log("Delete Expense Item Clicked", item);
+    // console.log("Delete Expense Item Clicked", item);
     try {
       if (
         props.selectedExpense &&

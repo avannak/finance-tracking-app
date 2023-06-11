@@ -22,13 +22,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 let analytics = null;
 let db: Firestore;
-let auth: Auth;
+let auth: Auth = getAuth(app); // Initialize `auth` outside of the condition
 
 if (typeof window !== "undefined") {
   // Only initialize Firebase Analytics in the client-side environment
   analytics = getAnalytics(app);
   db = getFirestore(app);
-  auth = getAuth(app);
 }
 
 export { app, analytics, db, auth };

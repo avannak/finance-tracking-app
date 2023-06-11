@@ -94,7 +94,7 @@ export const FinanceContextProvider = ({ children }: any) => {
       newIncome.id = docRef.id;
       setIncome((prev: IncomeItem[]) => [...prev, newIncome]);
     } catch (error: any) {
-      console.log(error.message);
+      throw error;
     }
   };
 
@@ -107,7 +107,6 @@ export const FinanceContextProvider = ({ children }: any) => {
         return prev.filter((income) => income.id !== incomeId);
       });
     } catch (error: any) {
-      console.log(error.message);
       throw error;
     }
   };
@@ -178,7 +177,7 @@ export const FinanceContextProvider = ({ children }: any) => {
         );
         updatedExpenses[pos].items = [...updatedExpense.items];
         updatedExpenses[pos].total = updatedExpense.total;
-        console.log("UpdatedExpenses State is: ", updatedExpenses);
+        // console.log("UpdatedExpenses State is: ", updatedExpenses);
         return updatedExpenses;
       });
     } catch (error) {

@@ -14,7 +14,7 @@ const CategorySelection = (props: Props) => {
   const addCategoryHandler = async () => {
     const title = titleRef.current?.value ?? "";
     const color = colorRef.current?.value ?? "";
-    console.log(title, color);
+    // console.log(title, color);
 
     try {
       await addCategoryItem({ title, color, total: 0, items: [] });

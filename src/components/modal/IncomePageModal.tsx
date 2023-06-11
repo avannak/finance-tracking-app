@@ -37,7 +37,7 @@ const IncomePageModal = (props: Props) => {
         descriptionRef.current.value = "";
         amountRef.current.value = "";
       } catch (error: any) {
-        console.log(error.message);
+        throw error;
       }
     }
   };

@@ -1,30 +1,11 @@
-"use client";
-import { useContext, createContext } from "react";
+// AuthComponent.tsx
+
 import { auth } from "@/lib/firebase";
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { authContext, FirebaseUser } from "./AuthContext"; // import from your context provider
 
-export interface FirebaseUser {
-  uid: string | null;
-  displayName?: string | null;
-  photoURL?: string | null;
-}
-
-export type authContextTypes = {
-  user: FirebaseUser | null;
-  loading: boolean;
-  googleLoginHandler: () => Promise<void>;
-  logout: () => Promise<void>;
-};
-
-export const authContext = createContext<authContextTypes>({
-  user: null,
-  loading: true,
-  googleLoginHandler: async () => {},
-  logout: async () => {},
-});
-
-const AuthContextProvider = ({ children }: any) => {
+const AuthComponent = ({ children }: any) => {
   const [firebaseUser, loading] = useAuthState(auth);
 
   const user: FirebaseUser | null = firebaseUser
@@ -54,7 +35,3 @@ const AuthContextProvider = ({ children }: any) => {
   const values = { user, loading, googleLoginHandler, logout };
   return <authContext.Provider value={values}>{children}</authContext.Provider>;
 };
-
-export default AuthContextProvider;
-
-export const useAuthContext = () => useContext(authContext);

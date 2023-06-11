@@ -1,4 +1,3 @@
-import ExpensePage from "@/app/expenses/page";
 import IncomePage from "@/app/signin/page";
 import React from "react";
 
@@ -25,18 +24,7 @@ const Modal = (props: Props) => {
           >
             X
           </button>
-          {props.type === "expenses" && (
-            <ExpensePage
-              modalIsOpen={true}
-              setModalIsOpen={props.setModalIsOpen}
-            />
-          )}
-          {props.type === "income" && (
-            <IncomePage
-              modalIsOpen={true}
-              setModalIsOpen={props.setModalIsOpen}
-            />
-          )}
+          {props.type === "income" && <IncomePage />}
           {props.children}
         </div>
       </div>

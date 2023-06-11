@@ -46,6 +46,7 @@ const AuthContextProvider = ({ children }: any) => {
   const logout = async () => {
     try {
       await signOut(auth);
+      localStorage.removeItem(`expenses-${user?.uid}`);
     } catch (error) {
       throw error;
     }

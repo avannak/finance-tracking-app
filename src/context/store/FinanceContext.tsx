@@ -285,13 +285,15 @@ export const FinanceContextProvider = ({ children }: any) => {
         // Only update state if the new data is different
         if (JSON.stringify(data) !== JSON.stringify(expenses)) {
           setExpenses(data);
-          localStorage.setItem("expenses", JSON.stringify(data));
+          localStorage.setItem(`expenses-${user.uid}`, JSON.stringify(data));
         }
       }
     };
 
     // If there is nothing in local storage or it is different from the state, fetch from DB
-    const cachedExpenses = localStorage.getItem("expenses");
+    // Fetch expenses from local storage for the specific user.
+    const cachedExpenses = localStorage.getItem(`expenses-${user?.uid}`);
+
     if (
       !cachedExpenses ||
       (cachedExpenses && JSON.stringify(expenses) !== cachedExpenses)

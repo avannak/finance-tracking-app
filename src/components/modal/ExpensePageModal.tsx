@@ -96,7 +96,7 @@ const ExpensePageModal = (props: Props) => {
           </div>
           <div className="flex flex-col gap-4 mt-6">
             <div className="flex items-center justify-between mx-auto w-full">
-              <h1 className="text-center text-2xl">Select Expense Category</h1>
+              <h1 className="text-center text-2xl">Select expense category</h1>
               {!showNewCategory && (
                 <button
                   onClick={handleNewCategory}

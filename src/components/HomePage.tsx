@@ -95,7 +95,7 @@ const HomePage = (props: Props) => {
           <h3 className="text-2xl">Stats</h3>
 
           {expenses && (
-            <div className="flex flex-col gap-4 mt-6 w-1/2 mx-auto">
+            <div className="flex flex-col gap-4 mt-6 w-full mx-auto h-96">
               <Doughnut
                 options={{
                   responsive: true,

@@ -18,8 +18,8 @@ const SignIn = (props: Props) => {
   return (
     <div className="container max-w-2xl px-6 py-6 mx-auto">
       <h1 className="text-6xl font-bold text-center">Fi.nancy</h1>
-      <h3 className="text-2xl text-center py-6">
-        Empower Your Financial Future
+      <h3 className="text-xl text-center py-6">
+        Empower your financial future
       </h3>
       <div className="w-full h-full my-6 bg-slate-800 rounded-t-2xl rounded-b-2xl">
         <Image className="rounded-t-2xl" src={piggyBank} alt="piggy-bank" />

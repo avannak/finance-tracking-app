@@ -4,11 +4,11 @@
 
 @layer base {
   body {
-    @apply bg-slate-900 text-white;
+    @apply bg-gray-900 text-white;
   }
 
   button {
-    @apply transition-all duration-100 hover:scale-110;
+    @apply transition-all duration-100 hover:scale-105;
   }
 
   input {
@@ -37,5 +37,9 @@
 
   .input-group {
     @apply flex flex-col gap-4
+  }
+
+  .modal {
+    @apply container mx-auto max-w-2xl h-[80vh] rounded-3xl bg-slate-800 py-6 px-4 overflow-y-auto
   }
 }

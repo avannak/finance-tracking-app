@@ -33,7 +33,13 @@ const ExpenseCategoryItem = (props: Props) => {
           />
           <h4>{props.expense.title}</h4>
         </div>
-        {props.expense.total && <p>{currencyFormatter(props.expense.total)}</p>}
+        {props.expense.total != null && (
+          <p>
+            {props.expense.total === 0
+              ? "$0"
+              : currencyFormatter(props.expense.total)}
+          </p>
+        )}
       </div>
     </button>
   );

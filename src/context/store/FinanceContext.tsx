@@ -22,8 +22,10 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
+import { useAuthContext } from "./AuthContext";
 
 export type IncomeItem = {
+  uid?: string | null;
   id?: any;
   amount: number;
   description?: string;
@@ -31,6 +33,7 @@ export type IncomeItem = {
 };
 
 export type ExpenseItem = {
+  uid?: string | null;
   id?: any;
   color?: string;
   items: ExpenseItemObject[];
@@ -77,6 +80,7 @@ const FinanceContext = createContext<financeContextTypes>({
 });
 
 export const FinanceContextProvider = ({ children }: any) => {
+  const { user } = useAuthContext();
   // Initialize States here...
   const [income, setIncome] = useState<IncomeItem[]>([]);
   const [expenses, setExpenses] = useState<ExpenseItem[]>([]);
@@ -132,6 +136,7 @@ export const FinanceContextProvider = ({ children }: any) => {
           updatedExpenses[foundIndex] = {
             ...updatedExpenses[foundIndex],
             id: expenseCategoryId,
+            uid: user?.uid,
             ...newExpense,
           };
         }
@@ -196,12 +201,16 @@ export const FinanceContextProvider = ({ children }: any) => {
 
     const newDocRef = doc(collectionRef);
     await setDoc(newDocRef, {
+      uid: user?.uid,
       ...category,
       items: [],
     });
 
     setExpenses((prevExpenses) => {
-      return [...prevExpenses, { id: newDocRef.id, ...category }];
+      return [
+        ...prevExpenses,
+        { id: newDocRef.id, uid: user?.uid, ...category },
+      ];
     });
   };
 
@@ -237,37 +246,48 @@ export const FinanceContextProvider = ({ children }: any) => {
   };
 
   useEffect(() => {
+    if (!user) return;
     // Grab Income Data on load.
     const getIncomeData = async () => {
       const collectionRef = collection(db, "income");
-      const docsSnap = await getDocs(collectionRef);
-      const data = docsSnap.docs.map((doc: DocumentData) => {
-        return {
-          id: doc.id,
-          ...doc.data(),
-          createdAt: new Date(doc.data().createdAt.toMillis()),
-        };
-      });
-      setIncome(data);
+      // Grab data from user with uid
+      if (user?.uid) {
+        const q = query(collectionRef, where("uid", "==", user.uid));
+        const docsSnap = await getDocs(q);
+        const data = docsSnap.docs.map((doc: DocumentData) => {
+          return {
+            id: doc.id,
+            uid: user.uid,
+            ...doc.data(),
+            createdAt: new Date(doc.data().createdAt.toMillis()),
+          };
+        });
+        setIncome(data);
+      }
     };
 
     getIncomeData();
-  }, []); // Empty dependency array to run once on initial mount
+  }, [user]); // Empty dependency array to run once on initial mount
 
   useEffect(() => {
     const fetchExpenses = async () => {
       const collectionRef = collection(db, "expenses");
-      const docsSnap = await getDocs(collectionRef);
-      const data = docsSnap.docs.map((doc: DocumentData) => {
-        return {
-          id: doc.id,
-          ...doc.data(),
-        };
-      });
-      // Only update state if the new data is different
-      if (JSON.stringify(data) !== JSON.stringify(expenses)) {
-        setExpenses(data);
-        localStorage.setItem("expenses", JSON.stringify(data));
+      // Grab data from user with uid
+      if (user?.uid) {
+        const q = query(collectionRef, where("uid", "==", user.uid));
+        const docsSnap = await getDocs(q);
+        const data = docsSnap.docs.map((doc: DocumentData) => {
+          return {
+            id: doc.id,
+            uid: user.uid,
+            ...doc.data(),
+          };
+        });
+        // Only update state if the new data is different
+        if (JSON.stringify(data) !== JSON.stringify(expenses)) {
+          setExpenses(data);
+          localStorage.setItem("expenses", JSON.stringify(data));
+        }
       }
     };
 
@@ -279,7 +299,7 @@ export const FinanceContextProvider = ({ children }: any) => {
     ) {
       fetchExpenses();
     }
-  }, [expenses]);
+  }, [expenses, user?.uid]);
   return (
     <FinanceContext.Provider value={values}>{children}</FinanceContext.Provider>
   );

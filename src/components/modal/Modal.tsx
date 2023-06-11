@@ -1,5 +1,5 @@
 import ExpensePage from "@/app/expenses/page";
-import IncomePage from "@/app/income/page";
+import IncomePage from "@/app/signin/page";
 import React from "react";
 
 type Props = {

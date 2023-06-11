@@ -70,7 +70,7 @@ const ExpensePageModal = (props: Props) => {
 
   return (
     <div className="absolute top-10 left-0 w-full h-full z-10">
-      <div className="container mx-auto max-w-2xl h-[80vh] rounded-3xl bg-slate-800 py-6 px-4">
+      <div className="modal">
         <button
           className="w-10 h-10 mb-4 font-bold rounded-full bg-slate-600"
           onClick={() => showExpenseModal && setShowExpenseModal(false)}
@@ -126,36 +126,6 @@ const ExpensePageModal = (props: Props) => {
                 selectedCategoryName={selectedCategoryName}
               />
             ))}
-            {/* <ExpenseCategoryItem
-              onClick={() => handleCategoryClick("Holidays")}
-              color="#524"
-              title="Holidays"
-              selectedCategory={selectedCategory}
-            />
-            <ExpenseCategoryItem
-              onClick={() => handleCategoryClick("Fuel")}
-              color="#3ef3a2"
-              title="Fuel"
-              selectedCategory={selectedCategory}
-            />
-            <ExpenseCategoryItem
-              onClick={() => handleCategoryClick("Food")}
-              color="#f3f03e"
-              title="Food"
-              selectedCategory={selectedCategory}
-            />
-            <ExpenseCategoryItem
-              onClick={() => handleCategoryClick("Entertainment")}
-              color="#3e8cf3"
-              title="Entertainment"
-              selectedCategory={selectedCategory}
-            />
-            <ExpenseCategoryItem
-              onClick={() => handleCategoryClick("Movies")}
-              color="#f33e80"
-              title="Movies"
-              selectedCategory={selectedCategory}
-            /> */}
             {expenseAmount > 0 && selectedCategoryId && (
               <button type="submit" className="btn btn-primary">
                 Add Expense

@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
+import AuthContextProvider from "@/context/store/AuthContext";
 import Navigation from "@/components/Navigation";
 import { GlobalContextProvider } from "@/context/GlobalContext";
 import { FinanceContextProvider } from "@/context/store/FinanceContext";
@@ -19,12 +20,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <GlobalContextProvider>
-          <FinanceContextProvider>
-            <Navigation />
-            {children}
-          </FinanceContextProvider>
-        </GlobalContextProvider>
+        <AuthContextProvider>
+          <GlobalContextProvider>
+            <FinanceContextProvider>
+              <Navigation />
+              {children}
+            </FinanceContextProvider>
+          </GlobalContextProvider>
+        </AuthContextProvider>
       </body>
     </html>
   );

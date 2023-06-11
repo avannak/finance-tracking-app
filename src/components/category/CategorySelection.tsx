@@ -25,11 +25,12 @@ const CategorySelection = (props: Props) => {
   };
 
   return (
-    <div className="flex flex-row gap-3 mt-1 py-5">
+    <div className="flex flex-col sm:flex-row gap-3 mt-1 py-5">
       <input
         ref={titleRef}
         type="text"
         placeholder="Enter a new category..."
+        className="w-full sm:w-auto"
       ></input>
       <label>Pick Color: </label>
       <input type="color" ref={colorRef} className="w-24 h-10"></input>

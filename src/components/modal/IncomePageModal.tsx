@@ -1,6 +1,6 @@
 "use client";
 import ExpensePage from "@/app/expenses/page";
-import IncomePage from "@/app/income/page";
+import IncomePage from "@/app/signin/page";
 
 import React, { useRef, useState, useEffect } from "react";
 import ExpenseCategoryItem from "../category/ExpenseCategoryItem";
@@ -12,6 +12,7 @@ import {
   useFinanceContext,
   financeContextTypes,
 } from "@/context/store/FinanceContext";
+import { useAuthContext } from "@/context/store/AuthContext";
 
 type Props = {};
 
@@ -21,12 +22,14 @@ const IncomePageModal = (props: Props) => {
   const { showIncomeModal, setShowIncomeModal } = useGlobalContext();
   const { income, setIncome, addIncomeItem, removeIncomeItem } =
     useFinanceContext();
+  const { user } = useAuthContext();
 
   const addIncomeHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (amountRef.current && descriptionRef.current) {
       const newIncome: IncomeItem = {
         amount: +amountRef.current.value,
+        uid: user?.uid,
         description: descriptionRef.current.value,
         createdAt: new Date(),
       };
@@ -51,7 +54,7 @@ const IncomePageModal = (props: Props) => {
 
   return (
     <div className="absolute top-10 left-0 w-full h-full z-10">
-      <div className="container mx-auto max-w-2xl h-[80vh] rounded-3xl bg-slate-800 py-6 px-4">
+      <div className="modal">
         <button
           className="w-10 h-10 mb-4 font-bold rounded-full bg-slate-600"
           onClick={() => showIncomeModal && setShowIncomeModal(false)}

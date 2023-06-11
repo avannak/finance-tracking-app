@@ -88,10 +88,12 @@ export const FinanceContextProvider = ({ children }: any) => {
   // Add Income Item Function
   const addIncomeItem = async (newIncome: IncomeItem) => {
     const collectionRef = collection(db, "income");
+    const userId = user?.uid || "";
 
     try {
-      const docRef = await addDoc(collectionRef, newIncome);
+      const docRef = await addDoc(collectionRef, { ...newIncome, uid: userId });
       newIncome.id = docRef.id;
+      newIncome.uid = userId;
       setIncome((prev: IncomeItem[]) => [...prev, newIncome]);
     } catch (error: any) {
       throw error;
@@ -117,10 +119,12 @@ export const FinanceContextProvider = ({ children }: any) => {
     newExpense: ExpenseItem
   ) => {
     const docRef = doc(db, "expenses", expenseCategoryId);
+    const userId = user?.uid || "";
 
     try {
       await updateDoc(docRef, {
         ...newExpense,
+        uid: userId,
       });
 
       // Update State
@@ -135,7 +139,7 @@ export const FinanceContextProvider = ({ children }: any) => {
           updatedExpenses[foundIndex] = {
             ...updatedExpenses[foundIndex],
             id: expenseCategoryId,
-            uid: user?.uid,
+            uid: userId,
             ...newExpense,
           };
         }
@@ -190,6 +194,7 @@ export const FinanceContextProvider = ({ children }: any) => {
     const categoryTitle = category.title;
     const collectionRef = collection(db, "expenses");
     const Query = query(collectionRef, where("title", "==", categoryTitle));
+    const userId = user?.uid || "";
 
     const docSnap = await getDocs(Query);
 
@@ -200,17 +205,12 @@ export const FinanceContextProvider = ({ children }: any) => {
 
     const newDocRef = doc(collectionRef);
     await setDoc(newDocRef, {
-      uid: user?.uid,
       ...category,
-      items: [],
+      uid: userId,
     });
 
-    setExpenses((prevExpenses) => {
-      return [
-        ...prevExpenses,
-        { id: newDocRef.id, uid: user?.uid, ...category },
-      ];
-    });
+    // update state
+    setExpenses((prev) => [...prev, { id: newDocRef.id, ...category }]);
   };
 
   // Delete Category Item Function

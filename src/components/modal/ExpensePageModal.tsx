@@ -4,6 +4,7 @@ import React, { useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import CategorySelection from "../category/CategorySelection";
 import ExpenseCategoryItem from "../category/ExpenseCategoryItem";
+import { toast } from "react-toastify";
 
 type Props = {};
 
@@ -45,6 +46,7 @@ const ExpensePageModal = (props: Props) => {
 
       try {
         await addExpenseItem(expense.id, newExpense);
+        toast.success("Expense Added!");
       } catch (error: any) {
         console.log(error.message);
       }

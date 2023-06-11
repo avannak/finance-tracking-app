@@ -1,5 +1,6 @@
 import { useFinanceContext } from "@/context/store/FinanceContext";
 import React, { SetStateAction, Dispatch, RefObject, useRef } from "react";
+import { toast } from "react-toastify";
 
 type Props = {
   showNewCategory: boolean;
@@ -18,6 +19,7 @@ const CategorySelection = (props: Props) => {
 
     try {
       await addCategoryItem({ title, color, total: 0, items: [] });
+      toast.success("New Category Added!");
     } catch (error) {
       throw error;
     }

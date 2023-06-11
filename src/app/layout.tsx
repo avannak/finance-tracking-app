@@ -1,5 +1,7 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import AuthContextProvider from "@/context/store/AuthContext";
 import Navigation from "@/components/Navigation";
 import { GlobalContextProvider } from "@/context/GlobalContext";
@@ -23,6 +25,7 @@ export default async function RootLayout({
         <AuthContextProvider>
           <GlobalContextProvider>
             <FinanceContextProvider>
+              <ToastContainer />
               <Navigation />
               {children}
             </FinanceContextProvider>

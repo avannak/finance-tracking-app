@@ -1,6 +1,4 @@
 "use client";
-import ExpensePage from "@/app/expenses/page";
-import IncomePage from "@/app/signin/page";
 
 import React, { useRef, useState, useEffect } from "react";
 import ExpenseCategoryItem from "../category/ExpenseCategoryItem";

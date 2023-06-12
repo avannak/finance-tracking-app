@@ -37,7 +37,29 @@ const AuthContextProvider = ({ children }: any) => {
 
   const googleLoginHandler = async () => {
     try {
-      await signInWithPopup(auth, new GoogleAuthProvider());
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider)
+        .then((result) => {
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          const credential = GoogleAuthProvider.credentialFromResult(result);
+          if (credential !== null) {
+            // Safe to use credential here
+            const token = credential.accessToken;
+          }
+          // The signed-in user info.
+          const user = result.user;
+          // You can retrieve the user's uid with user.uid
+        })
+        .catch((error) => {
+          // Handle Errors here.
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // The email of the user's account used.
+          const email = error.email;
+          // The AuthCredential type that was used.
+          const credential = GoogleAuthProvider.credentialFromError(error);
+          // ...
+        });
     } catch (error) {
       throw error;
     }

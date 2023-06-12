@@ -89,7 +89,7 @@ export const FinanceContextProvider = ({ children }: any) => {
   const addIncomeItem = async (newIncome: IncomeItem) => {
     const collectionRef = collection(db, "income");
     const userId = user?.uid || "";
-
+    // console.log("addIncome ", userId);
     try {
       const docRef = await addDoc(collectionRef, { ...newIncome, uid: userId });
       newIncome.id = docRef.id;
@@ -193,24 +193,30 @@ export const FinanceContextProvider = ({ children }: any) => {
   const addCategoryItem = async (category: ExpenseItem) => {
     const categoryTitle = category.title;
     const collectionRef = collection(db, "expenses");
-    const Query = query(collectionRef, where("title", "==", categoryTitle));
     const userId = user?.uid || "";
+    const Query = query(
+      collectionRef,
+      where("title", "==", categoryTitle),
+      where("uid", "==", userId)
+    );
+    try {
+      // Check if category exists first before adding new category
+      const querySnapshot = await getDocs(Query);
+      if (!querySnapshot.empty) {
+        console.log("Category already exists");
+        return;
+      }
 
-    const docSnap = await getDocs(Query);
-
-    if (!docSnap.empty) {
-      console.log(`Category ${categoryTitle} already exists.`);
-      return;
+      const newDocRef = doc(collectionRef);
+      await setDoc(newDocRef, {
+        ...category,
+        uid: userId,
+      });
+      // update state
+      setExpenses((prev) => [...prev, { id: newDocRef.id, ...category }]);
+    } catch (error) {
+      throw error;
     }
-
-    const newDocRef = doc(collectionRef);
-    await setDoc(newDocRef, {
-      ...category,
-      uid: userId,
-    });
-
-    // update state
-    setExpenses((prev) => [...prev, { id: newDocRef.id, ...category }]);
   };
 
   // Delete Category Item Function
@@ -266,6 +272,7 @@ export const FinanceContextProvider = ({ children }: any) => {
     };
 
     getIncomeData();
+    console.log(income, user);
   }, [user]); // Empty dependency array to run once on initial mount
 
   useEffect(() => {

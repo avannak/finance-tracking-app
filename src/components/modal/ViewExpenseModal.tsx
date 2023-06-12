@@ -7,6 +7,7 @@ import {
 import { currencyFormatter } from "@/lib/utils";
 import React from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 type Props = { selectedExpense: ExpenseItem | null };
 
@@ -35,8 +36,13 @@ const ViewExpenseModal = (props: Props) => {
           };
           try {
             await deleteExpenseItem(updatedExpense, props.selectedExpense.id);
+            toast.success(
+              `Deleted expense value of ${currencyFormatter(
+                item.amount
+              )} from history!`
+            );
           } catch (error) {
-            throw error;
+            throw toast.error(`Error deleting expense entry from history`);
           }
         }
       }
@@ -46,12 +52,17 @@ const ViewExpenseModal = (props: Props) => {
   };
 
   // Delete Category Handler
-  const deleteCategoryHandler = async (categoryId: string) => {
+  const deleteCategoryHandler = async (expense: ExpenseItem | null) => {
+    if (expense === null) {
+      toast.error("No category to delete.");
+      return;
+    }
     try {
-      await deleteCategoryItem(categoryId);
+      await deleteCategoryItem(expense?.id);
+      toast.success(`Category: ${expense.title} deleted!`);
       setShowViewExpenseModal(false);
     } catch (error) {
-      throw error;
+      throw toast.error(`Error deleting category entry`);
     }
   };
 
@@ -90,7 +101,7 @@ const ViewExpenseModal = (props: Props) => {
             <button
               type="button"
               className="btn btn-danger"
-              onClick={() => deleteCategoryHandler(props.selectedExpense?.id)}
+              onClick={() => deleteCategoryHandler(props.selectedExpense)}
             >
               Delete
             </button>
@@ -117,7 +128,7 @@ const ViewExpenseModal = (props: Props) => {
           <button
             type="button"
             className="btn btn-danger"
-            onClick={() => deleteCategoryHandler(props.selectedExpense?.id)}
+            onClick={() => deleteCategoryHandler(props.selectedExpense)}
           >
             Delete
           </button>

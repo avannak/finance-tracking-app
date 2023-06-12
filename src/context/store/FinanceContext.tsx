@@ -272,7 +272,7 @@ export const FinanceContextProvider = ({ children }: any) => {
     };
 
     getIncomeData();
-    console.log(income, user);
+    // console.log(income, user);
   }, [user]); // Empty dependency array to run once on initial mount
 
   useEffect(() => {

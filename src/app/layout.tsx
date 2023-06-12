@@ -1,11 +1,12 @@
-import "./globals.css";
-import { Inter } from "next/font/google";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import AuthContextProvider from "@/context/store/AuthContext";
 import Navigation from "@/components/Navigation";
 import { GlobalContextProvider } from "@/context/GlobalContext";
+import AuthContextProvider from "@/context/store/AuthContext";
 import { FinanceContextProvider } from "@/context/store/FinanceContext";
+import { Inter } from "next/font/google";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./globals.css";
+import ToastifyProvider from "@/components/toastify/ToastifyProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,7 +26,7 @@ export default async function RootLayout({
         <AuthContextProvider>
           <GlobalContextProvider>
             <FinanceContextProvider>
-              <ToastContainer />
+              <ToastifyProvider />
               <Navigation />
               {children}
             </FinanceContextProvider>

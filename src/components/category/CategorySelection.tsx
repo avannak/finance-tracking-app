@@ -1,5 +1,11 @@
 import { useFinanceContext } from "@/context/store/FinanceContext";
-import React, { SetStateAction, Dispatch, RefObject, useRef } from "react";
+import React, {
+  SetStateAction,
+  Dispatch,
+  RefObject,
+  useRef,
+  useEffect,
+} from "react";
 import { toast } from "react-toastify";
 
 type Props = {
@@ -19,9 +25,9 @@ const CategorySelection = (props: Props) => {
 
     try {
       await addCategoryItem({ title, color, total: 0, items: [] });
-      toast.success("New Category Added!");
+      toast.success(`New Category: ${title} added!`);
     } catch (error) {
-      throw error;
+      toast.error("Error adding new category:");
     }
     props.setShowNewCategory(false);
   };
@@ -34,8 +40,13 @@ const CategorySelection = (props: Props) => {
         placeholder="Enter a new category..."
         className="w-full sm:w-auto"
       ></input>
-      <label>Pick Color: </label>
-      <input type="color" ref={colorRef} className="w-24 h-10"></input>
+      <label htmlFor="color">Pick Color: </label>
+      <input
+        id="color"
+        type="color"
+        ref={colorRef}
+        className="w-24 h-10"
+      ></input>
       <button
         type="button"
         onClick={() => {

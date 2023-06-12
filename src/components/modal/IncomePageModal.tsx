@@ -11,6 +11,8 @@ import {
   financeContextTypes,
 } from "@/context/store/FinanceContext";
 import { useAuthContext } from "@/context/store/AuthContext";
+import { toast } from "react-toastify";
+import { formatDate } from "@/utils/formatDate";
 
 type Props = {};
 
@@ -34,19 +36,27 @@ const IncomePageModal = (props: Props) => {
 
       try {
         await addIncomeItem(newIncome);
+        toast.success(
+          `New income of ${currencyFormatter(amountRef.current.value)} added!`
+        );
         descriptionRef.current.value = "";
         amountRef.current.value = "";
       } catch (error: any) {
-        throw error;
+        throw toast.error(`Error adding new income entry`);
       }
     }
   };
 
-  const deleteIncomeHandler = async (incomeId: string) => {
+  const deleteIncomeHandler = async (income: IncomeItem) => {
     try {
-      await removeIncomeItem(incomeId);
+      await removeIncomeItem(income.id);
+      toast.success(
+        `Deleted income value of ${currencyFormatter(
+          income.amount
+        )} from history!`
+      );
     } catch (error: any) {
-      console.log(error.message);
+      toast.error(`Error deleting income entry from history`);
     }
   };
 
@@ -64,6 +74,7 @@ const IncomePageModal = (props: Props) => {
           <div className="input-group">
             <label htmlFor="amount">Income Amount</label>
             <input
+              id="amount"
               type="number"
               ref={amountRef}
               name="amount"
@@ -72,8 +83,9 @@ const IncomePageModal = (props: Props) => {
               placeholder="Enter income amount"
               required
             ></input>
-            <label htmlFor="amount">Description</label>
+            <label htmlFor="description">Description</label>
             <input
+              id="description"
               type="text"
               ref={descriptionRef}
               name="description"
@@ -93,14 +105,14 @@ const IncomePageModal = (props: Props) => {
               <div>
                 <p className="font-semibold">{income.description}</p>
                 <small className="text-xs">
-                  {income.createdAt.toISOString()}
+                  {formatDate(income.createdAt.toISOString())}
                 </small>
               </div>
               <p className="flex items-center gap-2">
                 {currencyFormatter(income.amount)}
                 <button
                   onClick={() => {
-                    deleteIncomeHandler(income.id);
+                    deleteIncomeHandler(income);
                   }}
                 >
                   <FaRegTrashAlt></FaRegTrashAlt>

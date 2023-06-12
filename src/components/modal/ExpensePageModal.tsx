@@ -46,9 +46,9 @@ const ExpensePageModal = (props: Props) => {
 
       try {
         await addExpenseItem(expense.id, newExpense);
-        toast.success("Expense Added!");
+        toast.success(`$${expenseAmount} added to ${expense.title}!`);
       } catch (error: any) {
-        console.log(error.message);
+        toast.error(`Error adding new expense`);
       }
       setSelectedCategoryId("");
       setSelectedCategoryName("");
@@ -85,6 +85,7 @@ const ExpensePageModal = (props: Props) => {
               Please type in your expense and pick a category.
             </label>
             <input
+              id="expense"
               type="number"
               value={expenseAmount}
               onChange={(e: any) => {

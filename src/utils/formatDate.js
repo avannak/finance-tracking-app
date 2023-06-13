@@ -8,5 +8,5 @@ export function formatDate(isoString) {
   const minute = date.getMinutes().toString().padStart(2, "0");
   const second = date.getSeconds().toString().padStart(2, "0");
 
-  return `${day}/${month}/${year}, ${hour}:${minute}:${second}`;
+  return `${month}/${day}/${year}, ${hour}:${minute}:${second}`;
 }

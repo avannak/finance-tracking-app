@@ -149,7 +149,10 @@ const HomePage = (props: Props) => {
         }}
         className="absolute top-0 left-0 w-full h-full z-10 transition-all duration-500"
       >
-        <ViewExpenseModal selectedExpense={selectedExpense} />
+        <ViewExpenseModal
+          selectedExpense={selectedExpense}
+          setSelectedExpense={setSelectedExpense}
+        />
       </div>
     </div>
   );

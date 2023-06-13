@@ -19,7 +19,8 @@ type Props = {};
 const IncomePageModal = (props: Props) => {
   const amountRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
-  const { showIncomeModal, setShowIncomeModal } = useGlobalContext();
+  const { showIncomeModal, setShowIncomeModal, isDeleting, setIsDeleting } =
+    useGlobalContext();
   const { income, setIncome, addIncomeItem, removeIncomeItem } =
     useFinanceContext();
   const { user } = useAuthContext();
@@ -42,14 +43,16 @@ const IncomePageModal = (props: Props) => {
         descriptionRef.current.value = "";
         amountRef.current.value = "";
       } catch (error: any) {
-        throw toast.error(`Error adding new income entry`);
+        toast.error(`Error adding new income entry`);
       }
     }
   };
 
   const deleteIncomeHandler = async (income: IncomeItem) => {
     try {
+      setIsDeleting(true);
       await removeIncomeItem(income.id);
+      setIsDeleting(false);
       toast.success(
         `Deleted income value of ${currencyFormatter(
           income.amount
@@ -91,6 +94,7 @@ const IncomePageModal = (props: Props) => {
               name="description"
               placeholder="Enter income description"
               required
+              maxLength={200}
             ></input>
           </div>
           <button type="submit" className="btn btn-primary">
@@ -111,6 +115,8 @@ const IncomePageModal = (props: Props) => {
               <p className="flex items-center gap-2">
                 {currencyFormatter(income.amount)}
                 <button
+                  type="button"
+                  disabled={isDeleting}
                   onClick={() => {
                     deleteIncomeHandler(income);
                   }}

@@ -5,49 +5,55 @@ import {
   useFinanceContext,
 } from "@/context/store/FinanceContext";
 import { currencyFormatter } from "@/lib/utils";
-import React from "react";
+import React, { useState, useEffect, SetStateAction, Dispatch } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { formatDate } from "@/utils/formatDate";
 
-type Props = { selectedExpense: ExpenseItem | null };
+type Props = {
+  selectedExpense: ExpenseItem | null;
+  setSelectedExpense: Dispatch<SetStateAction<ExpenseItem | null>>;
+};
 
 const ViewExpenseModal = (props: Props) => {
-  const { showViewExpenseModal, setShowViewExpenseModal } = useGlobalContext();
+  const {
+    showViewExpenseModal,
+    setShowViewExpenseModal,
+    isDeleting,
+    setIsDeleting,
+  } = useGlobalContext();
   const { deleteExpenseItem, deleteCategoryItem } = useFinanceContext();
 
   // Delete Expense Item Handler
   const deleteExpenseItemHandler = async (item: ExpenseItemObject) => {
-    // console.log("Delete Expense Item Clicked", item);
-    try {
-      if (
-        props.selectedExpense &&
-        typeof props.selectedExpense.total === "number" &&
-        typeof item.amount === "number"
-      ) {
-        // Remove expense item from list
-        const updatedItems = props.selectedExpense.items.filter(
-          (i) => i.id !== item.id
-        );
+    setIsDeleting(true);
+    // Remove expense item from list
+    if (props.selectedExpense) {
+      const updatedItems = props.selectedExpense.items.filter(
+        (i) => i.id !== item.id
+      );
 
-        if (updatedItems) {
-          const updatedExpense: ExpenseItem = {
-            items: updatedItems,
-            total: props.selectedExpense.total - item.amount,
-          };
-          try {
-            await deleteExpenseItem(updatedExpense, props.selectedExpense.id);
-            toast.success(
-              `Deleted expense value of ${currencyFormatter(
-                item.amount
-              )} from history!`
-            );
-          } catch (error) {
-            throw toast.error(`Error deleting expense entry from history`);
-          }
+      if (updatedItems) {
+        const updatedExpense: ExpenseItem = {
+          ...props.selectedExpense,
+          items: updatedItems,
+          total: props.selectedExpense.total - item.amount,
+        };
+
+        try {
+          await deleteExpenseItem(updatedExpense, props.selectedExpense.id);
+          toast.success(
+            `Deleted expense value of ${currencyFormatter(
+              item.amount
+            )} from history!`
+          );
+          props.setSelectedExpense(updatedExpense); // Update the state in the parent component
+        } catch (error) {
+          toast.error(`Error deleting expense entry from history`);
+        } finally {
+          setIsDeleting(false);
         }
       }
-    } catch (error) {
-      throw error;
     }
   };
 
@@ -58,7 +64,9 @@ const ViewExpenseModal = (props: Props) => {
       return;
     }
     try {
+      setIsDeleting(true);
       await deleteCategoryItem(expense?.id);
+      setIsDeleting(false);
       toast.success(`Category: ${expense.title} deleted!`);
       setShowViewExpenseModal(false);
     } catch (error) {
@@ -101,6 +109,7 @@ const ViewExpenseModal = (props: Props) => {
             <button
               type="button"
               className="btn btn-danger"
+              disabled={isDeleting}
               onClick={() => deleteCategoryHandler(props.selectedExpense)}
             >
               Delete
@@ -128,6 +137,7 @@ const ViewExpenseModal = (props: Props) => {
           <button
             type="button"
             className="btn btn-danger"
+            disabled={isDeleting}
             onClick={() => deleteCategoryHandler(props.selectedExpense)}
           >
             Delete
@@ -138,17 +148,20 @@ const ViewExpenseModal = (props: Props) => {
           {props.selectedExpense.items.map((item: any, id) => (
             <div className="flex justify-between item-center" key={item.id}>
               <div>
-                <p className="font-semibold">{item.id}</p>
+                <p className="font-semibold">
+                  {item.description ? item.description : item.id}
+                </p>
                 <small className="text-xs">
-                  {item.createdAt.toMillis
-                    ? new Date(item.createdAt.toMillis()).toISOString()
-                    : item.createdAt.toISOString()}
+                  {`Date Created: ${formatDate(
+                    new Date(item.createdAt.toMillis()).toISOString()
+                  )}`}
                 </small>
               </div>
               <p className="flex items-center gap-2">
                 {currencyFormatter(item.amount)}
                 <button
                   type="button"
+                  disabled={isDeleting}
                   onClick={() => {
                     deleteExpenseItemHandler(item);
                   }}

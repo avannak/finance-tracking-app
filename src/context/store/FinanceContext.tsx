@@ -23,6 +23,7 @@ import {
   where,
 } from "firebase/firestore";
 import { useAuthContext } from "./AuthContext";
+import { toast } from "react-toastify";
 
 export type IncomeItem = {
   uid?: string | null;
@@ -146,7 +147,7 @@ export const FinanceContextProvider = ({ children }: any) => {
         localStorage.setItem("expenses", JSON.stringify(updatedExpenses)); // Update localStorage here
         return updatedExpenses;
       });
-      console.log("updated doc!");
+      // console.log("updated doc!");
     } catch (error: any) {
       throw error;
     }
@@ -174,14 +175,17 @@ export const FinanceContextProvider = ({ children }: any) => {
         ...updatedExpense,
       });
 
+      // Fetch the updated document from Firestore
+      const updatedDocSnap = await getDoc(docRef);
+      const updatedData = updatedDocSnap.data() as ExpenseItem;
+
       setExpenses((prevExpenses) => {
         const updatedExpenses: ExpenseItem[] = [...prevExpenses];
         const pos = updatedExpenses.findIndex(
           (ex) => ex.id === expenseCategoryId
         );
-        updatedExpenses[pos].items = [...updatedExpense.items];
-        updatedExpenses[pos].total = updatedExpense.total;
-        // console.log("UpdatedExpenses State is: ", updatedExpenses);
+        updatedExpenses[pos].items = updatedData.items;
+        updatedExpenses[pos].total = updatedData.total;
         return updatedExpenses;
       });
     } catch (error) {
@@ -203,7 +207,7 @@ export const FinanceContextProvider = ({ children }: any) => {
       // Check if category exists first before adding new category
       const querySnapshot = await getDocs(Query);
       if (!querySnapshot.empty) {
-        console.log("Category already exists");
+        toast.error("Category already exists");
         return;
       }
 
@@ -212,6 +216,7 @@ export const FinanceContextProvider = ({ children }: any) => {
         ...category,
         uid: userId,
       });
+      toast.success(`New Category: ${categoryTitle} added!`);
       // update state
       setExpenses((prev) => [...prev, { id: newDocRef.id, ...category }]);
     } catch (error) {

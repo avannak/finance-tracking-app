@@ -25,7 +25,6 @@ const CategorySelection = (props: Props) => {
 
     try {
       await addCategoryItem({ title, color, total: 0, items: [] });
-      toast.success(`New Category: ${title} added!`);
     } catch (error) {
       toast.error("Error adding new category:");
     }

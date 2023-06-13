@@ -8,8 +8,6 @@ import { toast } from "react-toastify";
 
 type Props = {};
 
-const uniqueId = uuidv4();
-
 const ExpensePageModal = (props: Props) => {
   const { showExpenseModal, setShowExpenseModal } = useGlobalContext();
   const { expenses, setExpenses, addExpenseItem } = useFinanceContext();
@@ -18,12 +16,15 @@ const ExpensePageModal = (props: Props) => {
   const [selectedCategoryName, setSelectedCategoryName] = useState("");
   const [newCategoryTitle, setNewCategoryTitle] = useState("");
   const [newCategoryColor, setNewCategoryColor] = useState("#ffffff");
+  const expenseDescriptionRef = useRef<HTMLInputElement>(null);
 
   const [showNewCategory, setShowNewCategory] = useState(false);
 
   // Create new Expense
   const addExpenseHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // Create unique id for every expense
+    const uniqueId = uuidv4();
 
     // Find the category to add the expense to
     const expense = expenses.find((expense) => {
@@ -37,7 +38,14 @@ const ExpensePageModal = (props: Props) => {
         color: expense.color,
         items: [
           ...expense.items,
-          { amount: +expenseAmount, createdAt: new Date(0), id: uniqueId },
+          {
+            amount: +expenseAmount,
+            createdAt: new Date(),
+            id: uniqueId,
+            description: expenseDescriptionRef.current
+              ? expenseDescriptionRef.current.value
+              : "",
+          },
         ],
         title: expense.title,
         total: expense.total + +expenseAmount,
@@ -53,6 +61,9 @@ const ExpensePageModal = (props: Props) => {
       setSelectedCategoryId("");
       setSelectedCategoryName("");
       setExpenseAmount("");
+      if (expenseDescriptionRef.current) {
+        expenseDescriptionRef.current.value = "";
+      }
       setShowExpenseModal(false);
     }
   };
@@ -95,6 +106,16 @@ const ExpensePageModal = (props: Props) => {
               step={0.01}
               placeholder="Enter income amount"
               required
+            ></input>
+            <label htmlFor="description">
+              Optional: Add a description for your expense.
+            </label>
+            <input
+              ref={expenseDescriptionRef}
+              id="description"
+              type="text"
+              maxLength={200}
+              placeholder="Enter expense description"
             ></input>
           </div>
           <div className="flex flex-col gap-4 mt-6">

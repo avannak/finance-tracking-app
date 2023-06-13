@@ -109,7 +109,9 @@ const IncomePageModal = (props: Props) => {
               <div>
                 <p className="font-semibold">{income.description}</p>
                 <small className="text-xs">
-                  {formatDate(income.createdAt.toISOString())}
+                  {`Date created: ${formatDate(
+                    new Date(income.createdAt).toISOString()
+                  )}`}
                 </small>
               </div>
               <p className="flex items-center gap-2">

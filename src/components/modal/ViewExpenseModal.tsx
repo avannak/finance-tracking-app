@@ -152,7 +152,7 @@ const ViewExpenseModal = (props: Props) => {
                   {item.description ? item.description : item.id}
                 </p>
                 <small className="text-xs">
-                  {`Date Created: ${formatDate(
+                  {`Date created: ${formatDate(
                     new Date(item.createdAt.toMillis()).toISOString()
                   )}`}
                 </small>

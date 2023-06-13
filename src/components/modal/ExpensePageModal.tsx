@@ -104,7 +104,7 @@ const ExpensePageModal = (props: Props) => {
               }}
               min={0.01}
               step={0.01}
-              placeholder="Enter income amount"
+              placeholder="Enter expense amount"
               required
             ></input>
             <label htmlFor="description">

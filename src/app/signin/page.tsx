@@ -5,6 +5,7 @@ import piggyBank from "public/images/piggy-bank.jpg";
 import { FcGoogle } from "react-icons/fc";
 import { useAuthContext } from "@/context/store/AuthContext";
 import { redirect } from "next/navigation";
+import logo from "public/images/Financy.png";
 
 type Props = {};
 
@@ -16,13 +17,15 @@ const SignIn = (props: Props) => {
   }
 
   return (
-    <div className="container max-w-2xl px-6 py-6 mx-auto">
-      <h1 className="text-6xl font-bold text-center">Fi.nancy</h1>
-      <h3 className="text-xl text-center py-6">
-        Empower your financial future
-      </h3>
+    <div className="container max-w-2xl px-6 py-6 mx-auto flex flex-col items-center">
+      <Image src={logo} alt="logo" width={300} height={400}></Image>
       <div className="w-full h-full my-6 bg-slate-800 rounded-t-2xl rounded-b-2xl">
-        <Image className="rounded-t-2xl" src={piggyBank} alt="piggy-bank" />
+        <Image
+          className="rounded-t-2xl w-full"
+          height={300}
+          src={piggyBank}
+          alt="piggy-bank"
+        />
         <div className="px-4 py-4">
           <h3 className="text-2xl text-center px-6 py-6">
             Please sign in to continue

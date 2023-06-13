@@ -1,11 +1,5 @@
 import { useFinanceContext } from "@/context/store/FinanceContext";
-import React, {
-  SetStateAction,
-  Dispatch,
-  RefObject,
-  useRef,
-  useEffect,
-} from "react";
+import React, { SetStateAction, Dispatch, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 
 type Props = {
@@ -19,9 +13,13 @@ const CategorySelection = (props: Props) => {
   const colorRef = useRef<HTMLInputElement>(null);
 
   const addCategoryHandler = async () => {
-    const title = titleRef.current?.value ?? "";
-    const color = colorRef.current?.value ?? "";
-    // console.log(title, color);
+    const title = titleRef.current?.value?.trim();
+    const color = colorRef.current?.value;
+
+    if (!title || !color) {
+      toast.error("Title and color are required.");
+      return;
+    }
 
     try {
       await addCategoryItem({ title, color, total: 0, items: [] });
@@ -38,6 +36,7 @@ const CategorySelection = (props: Props) => {
         type="text"
         placeholder="Enter a new category..."
         className="w-full sm:w-auto"
+        required
       ></input>
       <label htmlFor="color">Pick Color: </label>
       <input

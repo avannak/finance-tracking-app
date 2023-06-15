@@ -5,19 +5,18 @@ import {
   useFinanceContext,
 } from "@/context/store/FinanceContext";
 import { currencyFormatter } from "@/lib/utils";
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
 import React, {
-  useState,
-  useEffect,
-  SetStateAction,
   Dispatch,
+  SetStateAction,
+  useEffect,
   useRef,
+  useState,
 } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { formatDate } from "@/utils/formatDate";
 import { v4 as uuidv4 } from "uuid";
-import firebase from "firebase/compat/app";
-import "firebase/compat/firestore";
 
 type Props = {
   selectedExpense: ExpenseItem | null;
@@ -202,7 +201,7 @@ const ViewExpenseModal = (props: Props) => {
             <div className="w-full">
               <form onSubmit={addExpenseHandler}>
                 <div className="flex flex-col gap-3 mt-1 py-5">
-                  <label htmlFor="expense">New amount:</label>
+                  <label htmlFor="expense">Expense Amount</label>
                   <input
                     id="expense"
                     type="number"
@@ -283,7 +282,7 @@ const ViewExpenseModal = (props: Props) => {
           <div className="w-full">
             <form onSubmit={addExpenseHandler}>
               <div className="flex flex-col gap-3 mt-1 py-5">
-                <label htmlFor="expense">New amount:</label>
+                <label htmlFor="expense">Expense Amount</label>
                 <input
                   id="expense"
                   type="number"

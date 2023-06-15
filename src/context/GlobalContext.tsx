@@ -16,6 +16,12 @@ export type ContextTypes = {
   setShowViewExpenseModal: Dispatch<SetStateAction<boolean>>;
   isDeleting: boolean;
   setIsDeleting: Dispatch<SetStateAction<boolean>>;
+  showExpenses: boolean;
+  setShowExpenses: Dispatch<SetStateAction<boolean>>;
+  showIncome: boolean;
+  setShowIncome: Dispatch<SetStateAction<boolean>>;
+  showNewExpenseModal: boolean;
+  setShowNewExpenseModal: Dispatch<SetStateAction<boolean>>;
 };
 
 // Create new Global Context
@@ -28,6 +34,12 @@ const GlobalContext = createContext<ContextTypes>({
   setShowViewExpenseModal: () => {},
   isDeleting: false,
   setIsDeleting: () => {},
+  showExpenses: false,
+  setShowExpenses: () => {},
+  showIncome: false,
+  setShowIncome: () => {},
+  showNewExpenseModal: false,
+  setShowNewExpenseModal: () => {},
 });
 
 // Create wrapper for Next.js client side rendering compatibility
@@ -36,6 +48,9 @@ export const GlobalContextProvider = ({ children }: any) => {
   const [showExpenseModal, setShowExpenseModal] = useState(false);
   const [showViewExpenseModal, setShowViewExpenseModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showExpenses, setShowExpenses] = useState(false);
+  const [showIncome, setShowIncome] = useState(false);
+  const [showNewExpenseModal, setShowNewExpenseModal] = useState(false);
   return (
     <GlobalContext.Provider
       value={{
@@ -47,6 +62,12 @@ export const GlobalContextProvider = ({ children }: any) => {
         setShowViewExpenseModal,
         isDeleting,
         setIsDeleting,
+        showExpenses,
+        setShowExpenses,
+        showIncome,
+        setShowIncome,
+        showNewExpenseModal,
+        setShowNewExpenseModal,
       }}
     >
       {children}

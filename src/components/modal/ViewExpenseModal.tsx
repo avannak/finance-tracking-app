@@ -5,10 +5,19 @@ import {
   useFinanceContext,
 } from "@/context/store/FinanceContext";
 import { currencyFormatter } from "@/lib/utils";
-import React, { useState, useEffect, SetStateAction, Dispatch } from "react";
+import React, {
+  useState,
+  useEffect,
+  SetStateAction,
+  Dispatch,
+  useRef,
+} from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { formatDate } from "@/utils/formatDate";
+import { v4 as uuidv4 } from "uuid";
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
 
 type Props = {
   selectedExpense: ExpenseItem | null;
@@ -21,8 +30,58 @@ const ViewExpenseModal = (props: Props) => {
     setShowViewExpenseModal,
     isDeleting,
     setIsDeleting,
+    showNewExpenseModal,
+    setShowNewExpenseModal,
   } = useGlobalContext();
-  const { deleteExpenseItem, deleteCategoryItem } = useFinanceContext();
+  const { deleteExpenseItem, deleteCategoryItem, addExpenseItem, expenses } =
+    useFinanceContext();
+  const [expenseAmount, setExpenseAmount] = useState("");
+  const [expenseItems, setExpenseItems] = useState<ExpenseItemObject[]>([]);
+  const expenseDescriptionRef = useRef<HTMLInputElement>(null);
+
+  // Create new Expense
+  const addExpenseHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Create unique id for every expense
+    const uniqueId = uuidv4();
+
+    // console.log("submitted!");
+    if (props.selectedExpense) {
+      const newExpense: ExpenseItem = {
+        ...props.selectedExpense,
+        items: [
+          ...props.selectedExpense?.items,
+          {
+            amount: +expenseAmount,
+            createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
+            id: uniqueId,
+            description: expenseDescriptionRef.current
+              ? expenseDescriptionRef.current.value
+              : "",
+          },
+        ],
+        title: props.selectedExpense.title,
+        total: props.selectedExpense.total + +expenseAmount,
+      };
+      console.log("submitted New Expense!", newExpense);
+
+      try {
+        await addExpenseItem(props.selectedExpense.id, newExpense);
+        toast.success(
+          `$${expenseAmount} added to ${props.selectedExpense.title}!`
+        );
+        setExpenseItems(newExpense.items);
+        props.setSelectedExpense(newExpense);
+      } catch (error: any) {
+        toast.error(`Error adding new expense`);
+      }
+      setExpenseAmount("");
+      if (expenseDescriptionRef.current) {
+        expenseDescriptionRef.current.value = "";
+      }
+      setShowNewExpenseModal(false);
+    }
+  };
 
   // Delete Expense Item Handler
   const deleteExpenseItemHandler = async (item: ExpenseItemObject) => {
@@ -74,9 +133,25 @@ const ViewExpenseModal = (props: Props) => {
     }
   };
 
+  // Update expense items
+  useEffect(() => {
+    if (props.selectedExpense) {
+      // Create a deep copy of the items array
+      const copiedItems = JSON.parse(
+        JSON.stringify(props.selectedExpense.items)
+      );
+      setExpenseItems(copiedItems);
+    }
+  }, [props.selectedExpense]);
+
   if (!props.selectedExpense) {
     return (
       <div className="absolute top-10 left-0 w-full h-full z-10">
+        <div
+          className="fixed top-0 left-0 w-full h-full -z-10 transition-all duration-500 flex items-center justify-center"
+          onClick={() => setShowViewExpenseModal(!showViewExpenseModal)}
+          style={{ backgroundColor: "rgba(0,0,0,0.5)" }} // This makes the overlay semi-transparent
+        />
         <div className="container mx-auto max-w-2xl h-[80vh] rounded-3xl bg-slate-800 py-6 px-4">
           <button
             className="w-10 h-10 mb-4 font-bold rounded-full bg-slate-600"
@@ -95,6 +170,11 @@ const ViewExpenseModal = (props: Props) => {
   if (props.selectedExpense.items.length < 1) {
     return (
       <div className="absolute top-10 left-0 w-full h-full z-10">
+        <div
+          className="fixed top-0 left-0 w-full h-full -z-10 transition-all duration-500 flex items-center justify-center"
+          onClick={() => setShowViewExpenseModal(!showViewExpenseModal)}
+          style={{ backgroundColor: "rgba(0,0,0,0.5)" }} // This makes the overlay semi-transparent
+        />
         <div className="container mx-auto max-w-2xl h-[80vh] rounded-3xl bg-slate-800 py-6 px-4">
           <button
             className="w-10 h-10 mb-4 font-bold rounded-full bg-slate-600"
@@ -118,6 +198,57 @@ const ViewExpenseModal = (props: Props) => {
           <h3 className="gap-4 text-2xl mt-8 text-center">
             There are no expenses in this category. Try adding an expense.
           </h3>
+          {showNewExpenseModal && (
+            <div className="w-full">
+              <form onSubmit={addExpenseHandler}>
+                <div className="flex flex-col gap-3 mt-1 py-5">
+                  <label htmlFor="expense">New amount:</label>
+                  <input
+                    id="expense"
+                    type="number"
+                    value={expenseAmount}
+                    onChange={(e: any) => {
+                      setExpenseAmount(e.target.value);
+                    }}
+                    min={0.01}
+                    step={0.01}
+                    placeholder="Enter expense amount"
+                    required
+                  ></input>
+                  <label htmlFor="description">
+                    Optional: Add a description for your expense.
+                  </label>
+                  <input
+                    ref={expenseDescriptionRef}
+                    id="description"
+                    type="text"
+                    maxLength={200}
+                    placeholder="Enter expense description"
+                  />
+                  <div className="flex m-2">
+                    <button type="submit" className="btn btn-primary mr-2">
+                      + Add Expense
+                    </button>
+                    <button
+                      className="btn btn-danger ml-2"
+                      onClick={() => setShowNewExpenseModal(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          )}
+          {!showNewExpenseModal && (
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => setShowNewExpenseModal(true)}
+            >
+              + Add new expense
+            </button>
+          )}
         </div>
       </div>
     );
@@ -125,6 +256,11 @@ const ViewExpenseModal = (props: Props) => {
 
   return (
     <div className="absolute top-10 left-0 w-full h-full z-10">
+      <div
+        className="fixed top-0 left-0 w-full h-full -z-10 transition-all duration-500 flex items-center justify-center"
+        onClick={() => setShowViewExpenseModal(!showViewExpenseModal)}
+        style={{ backgroundColor: "rgba(0,0,0,0.5)" }} // This makes the overlay semi-transparent
+      />
       <div className="container mx-auto max-w-2xl h-[80vh] rounded-3xl bg-slate-800 py-6 px-4">
         <button
           className="w-10 h-10 mb-4 font-bold rounded-full bg-slate-600"
@@ -143,34 +279,90 @@ const ViewExpenseModal = (props: Props) => {
             Delete
           </button>
         </div>
+        {showNewExpenseModal && (
+          <div className="w-full">
+            <form onSubmit={addExpenseHandler}>
+              <div className="flex flex-col gap-3 mt-1 py-5">
+                <label htmlFor="expense">New amount:</label>
+                <input
+                  id="expense"
+                  type="number"
+                  value={expenseAmount}
+                  onChange={(e: any) => {
+                    setExpenseAmount(e.target.value);
+                  }}
+                  min={0.01}
+                  step={0.01}
+                  placeholder="Enter expense amount"
+                  required
+                ></input>
+                <label htmlFor="description">
+                  Optional: Add a description for your expense.
+                </label>
+                <input
+                  ref={expenseDescriptionRef}
+                  id="description"
+                  type="text"
+                  maxLength={200}
+                  placeholder="Enter expense description"
+                />
+                <div className="flex m-2">
+                  <button type="submit" className="btn btn-primary mr-2">
+                    + Add Expense
+                  </button>
+                  <button
+                    className="btn btn-danger ml-2"
+                    onClick={() => setShowNewExpenseModal(false)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        )}
+        {!showNewExpenseModal && (
+          <div className="mx-auto py-6">
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => setShowNewExpenseModal(true)}
+            >
+              + Add new expense
+            </button>
+          </div>
+        )}
         <div>
           <h3 className="text-xl my-6">Expense History</h3>
-          {props.selectedExpense.items.map((item: any, id) => (
-            <div className="flex justify-between item-center" key={item.id}>
-              <div>
-                <p className="font-semibold">
-                  {item.description ? item.description : item.id}
+          {props.selectedExpense.items
+            .sort(
+              (a, b) =>
+                b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime()
+            ) // Sort items by descending order of createdAt timestamps
+            .map((item: any, id) => (
+              <div className="flex justify-between item-center" key={item.id}>
+                <div>
+                  <p className="font-semibold">
+                    {item.description ? item.description : item.id}
+                  </p>
+                  <small className="text-xs">
+                    {`Date created: ${item.createdAt.toDate()}`}
+                  </small>
+                </div>
+                <p className="flex items-center gap-2">
+                  {currencyFormatter(item.amount)}
+                  <button
+                    type="button"
+                    disabled={isDeleting}
+                    onClick={() => {
+                      deleteExpenseItemHandler(item);
+                    }}
+                  >
+                    <FaRegTrashAlt></FaRegTrashAlt>
+                  </button>
                 </p>
-                <small className="text-xs">
-                  {`Date created: ${formatDate(
-                    new Date(item.createdAt.toMillis()).toISOString()
-                  )}`}
-                </small>
               </div>
-              <p className="flex items-center gap-2">
-                {currencyFormatter(item.amount)}
-                <button
-                  type="button"
-                  disabled={isDeleting}
-                  onClick={() => {
-                    deleteExpenseItemHandler(item);
-                  }}
-                >
-                  <FaRegTrashAlt></FaRegTrashAlt>
-                </button>
-              </p>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     </div>

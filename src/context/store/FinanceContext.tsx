@@ -22,8 +22,15 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
+import firebase from "firebase/compat/app";
+
 import { useAuthContext } from "./AuthContext";
 import { toast } from "react-toastify";
+
+export type User = {
+  uid: string;
+  // other properties of user
+};
 
 export type IncomeItem = {
   uid?: string | null;
@@ -45,7 +52,8 @@ export type ExpenseItem = {
 export type ExpenseItemObject = {
   id?: any;
   amount: number;
-  createdAt: Date;
+  description?: string;
+  createdAt: firebase.firestore.Timestamp;
 };
 
 export type financeContextTypes = {

@@ -42,4 +42,18 @@
   .modal {
     @apply container mx-auto max-w-2xl h-[80vh] rounded-3xl bg-slate-800 py-6 px-4 overflow-y-auto
   }
+  /* Collapsible */
+  .collapsible {
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+  }
+  
+  .expense-item {
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+  }
+  
+  .expense-item.active {
+    opacity: 1;
+  }
 }

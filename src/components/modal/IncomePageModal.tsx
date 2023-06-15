@@ -13,6 +13,10 @@ import {
 import { useAuthContext } from "@/context/store/AuthContext";
 import { toast } from "react-toastify";
 import { formatDate } from "@/utils/formatDate";
+import {
+  useAddIncomeHandler,
+  useDeleteIncomeHandler,
+} from "@/hooks/FinanceHandlers";
 
 type Props = {};
 
@@ -25,46 +29,17 @@ const IncomePageModal = (props: Props) => {
     useFinanceContext();
   const { user } = useAuthContext();
 
-  const addIncomeHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (amountRef.current && descriptionRef.current) {
-      const newIncome: IncomeItem = {
-        amount: +amountRef.current.value,
-        uid: user?.uid,
-        description: descriptionRef.current.value,
-        createdAt: new Date(),
-      };
+  const addIncomeHandler = useAddIncomeHandler(amountRef, descriptionRef);
 
-      try {
-        await addIncomeItem(newIncome);
-        toast.success(
-          `New income of ${currencyFormatter(amountRef.current.value)} added!`
-        );
-        descriptionRef.current.value = "";
-        amountRef.current.value = "";
-      } catch (error: any) {
-        toast.error(`Error adding new income entry`);
-      }
-    }
-  };
-
-  const deleteIncomeHandler = async (income: IncomeItem) => {
-    try {
-      setIsDeleting(true);
-      await removeIncomeItem(income.id);
-      setIsDeleting(false);
-      toast.success(
-        `Deleted income value of ${currencyFormatter(
-          income.amount
-        )} from history!`
-      );
-    } catch (error: any) {
-      toast.error(`Error deleting income entry from history`);
-    }
-  };
+  const deleteIncomeHandler = useDeleteIncomeHandler();
 
   return (
     <div className="absolute top-10 left-0 w-full h-full z-10">
+      <div
+        className="fixed top-0 left-0 w-full h-full -z-10 transition-all duration-500 flex items-center justify-center"
+        onClick={() => setShowIncomeModal(!showIncomeModal)}
+        style={{ backgroundColor: "rgba(0,0,0,0.5)" }} // This makes the overlay semi-transparent
+      />
       <div className="modal">
         <button
           className="w-10 h-10 mb-4 font-bold rounded-full bg-slate-600"
@@ -72,9 +47,9 @@ const IncomePageModal = (props: Props) => {
         >
           X
         </button>
-        {/* <h1>Income</h1> */}
         <form className="input-group" onSubmit={addIncomeHandler}>
           <div className="input-group">
+            <h1 className="text-2xl font-bold">Add New Income</h1>
             <label htmlFor="amount">Income Amount</label>
             <input
               id="amount"
@@ -109,9 +84,7 @@ const IncomePageModal = (props: Props) => {
               <div>
                 <p className="font-semibold">{income.description}</p>
                 <small className="text-xs">
-                  {`Date created: ${formatDate(
-                    new Date(income.createdAt).toISOString()
-                  )}`}
+                  {`Date created: ${income.createdAt}`}
                 </small>
               </div>
               <p className="flex items-center gap-2">

@@ -4,6 +4,7 @@ import React, { useContext } from "react";
 import { useAuthContext } from "@/context/store/AuthContext";
 import { ImStatsBars } from "react-icons/im";
 import { RiLogoutBoxRLine } from "react-icons/ri";
+import { BsPlusSquareFill } from "react-icons/bs";
 
 type Props = {};
 
@@ -11,7 +12,7 @@ const Navigation = (props: Props) => {
   const { user, loading, logout } = useAuthContext();
 
   return (
-    <header className="container max-w-2xl px-6 py-6 mx-auto">
+    <header className="container max-w-2xl px-3 py-6 mx-auto">
       <div className="flex justify-between">
         {/* User Information */}
         {user && !loading && (
@@ -38,9 +39,12 @@ const Navigation = (props: Props) => {
 
         {/* Right side of navigation */}
         {user && !loading && (
-          <nav className="flex items-center gap-4">
+          <nav className="flex items-center gap-2">
             <div>
-              <button>
+              {/* <button className="m-1">
+                <BsPlusSquareFill className="text-2xl" />
+              </button> */}
+              <button className="m-1">
                 <ImStatsBars className="text-2xl" />
               </button>
             </div>

@@ -120,9 +120,15 @@ const HomePage = (props: Props) => {
             onClick={() => setShowIncome(!showIncome)}
           >
             <h3 className="text-2xl">Income</h3>
-            {showIncome && <div className=" text-lime-400 mr-2">- Hide</div>}
+            {showIncome && (
+              <div className=" text-lime-400 mr-2">
+                {currencyFormatter(incomeStatus)}
+              </div>
+            )}
             {!showIncome && (
-              <div className=" text-lime-400 mr-2">+ Show details</div>
+              <div className=" text-lime-400 mr-2">
+                {currencyFormatter(incomeStatus)}
+              </div>
             )}
           </div>
           <div
@@ -169,7 +175,7 @@ const HomePage = (props: Props) => {
                   Income history
                 </button>
                 <p className="flex items-center gap-2 text-xl p-1">
-                  Total Income: {currencyFormatter(incomeStatus)}
+                  Total: {currencyFormatter(incomeStatus)}
                 </p>
               </div>
               <div className="flex w-full justify-end items-center">
@@ -193,9 +199,15 @@ const HomePage = (props: Props) => {
             onClick={() => setShowExpenses(!showExpenses)}
           >
             <h3 className="text-2xl">Expenses</h3>
-            {showExpenses && <div className=" text-lime-400 mr-2">- Hide</div>}
+            {showExpenses && (
+              <div className=" text-lime-400 mr-2">
+                {currencyFormatter(expensesStatus)}
+              </div>
+            )}
             {!showExpenses && (
-              <div className=" text-lime-400 mr-2">+ Show details</div>
+              <div className=" text-lime-400 mr-2">
+                {currencyFormatter(expensesStatus)}
+              </div>
             )}
           </div>
           <div

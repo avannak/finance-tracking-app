@@ -98,38 +98,10 @@ const ExpensePageModal = (props: Props) => {
           X
         </button>
         <form onSubmit={addExpenseHandler}>
-          <div className="input-group">
-            <h1 className="text-2xl font-bold">Add New Expense</h1>
-            <label htmlFor="expense">
-              Please type in your expense and pick a category.
-            </label>
-            <input
-              id="expense"
-              type="number"
-              value={expenseAmount}
-              onChange={(e: any) => {
-                setExpenseAmount(e.target.value);
-              }}
-              min={0.01}
-              step={0.01}
-              placeholder="Enter expense amount"
-              required
-            ></input>
-            <label htmlFor="description">
-              Optional: Add a description for your expense.
-            </label>
-            <input
-              ref={expenseDescriptionRef}
-              id="description"
-              type="text"
-              maxLength={200}
-              placeholder="Enter expense description"
-            ></input>
-          </div>
           <div className="flex flex-col gap-4 mt-6">
             <div className="flex items-center justify-between mx-auto w-full">
               <h1 className="text-center text-2xl font-bold">
-                Select expense category
+                Select Category for Expense
               </h1>
               {!showNewCategory && (
                 <button
@@ -162,6 +134,34 @@ const ExpensePageModal = (props: Props) => {
                 />
               ))}
             </div>
+          </div>
+          <div className="input-group flex flex-col gap-4 mt-6">
+            <h1 className="text-2xl font-bold">Add New Expense</h1>
+            <label htmlFor="expense">
+              How much would you like to add to your expense category?
+            </label>
+            <input
+              id="expense"
+              type="number"
+              value={expenseAmount}
+              onChange={(e: any) => {
+                setExpenseAmount(e.target.value);
+              }}
+              min={0.01}
+              step={0.01}
+              placeholder="Enter expense amount"
+              required
+            ></input>
+            <label htmlFor="description">
+              Optional: Add a description for your expense.
+            </label>
+            <input
+              ref={expenseDescriptionRef}
+              id="description"
+              type="text"
+              maxLength={200}
+              placeholder="Enter expense description"
+            ></input>
             {parseFloat(expenseAmount) > 0 && selectedCategoryId && (
               <button type="submit" className="btn btn-primary">
                 Add Expense

@@ -194,7 +194,7 @@ const ViewExpenseModal = (props: Props) => {
               Delete
             </button>
           </div>
-          <h3 className="gap-4 text-2xl mt-8 text-center">
+          <h3 className="gap-4 m-8 text-center">
             There are no expenses in this category. Try adding an expense.
           </h3>
           {showNewExpenseModal && (

@@ -248,31 +248,29 @@ const HomePage = (props: Props) => {
                   Total Expenses: {currencyFormatter(expensesStatus)}
                 </p>
               </div>
-              <div className="flex w-full justify-between items-center p-3">
-                {!showNewCategory && (
-                  <button
-                    onClick={handleNewCategory}
-                    className="btn-primary-no-outline"
-                  >
-                    + New Category
-                  </button>
-                )}
-                {showNewCategory && (
-                  <CategorySelection
-                    showNewCategory={showNewCategory}
-                    setShowNewCategory={setShowNewCategory}
-                  />
-                )}
-
+              <div className="flex w-full justify-end">
+                <div className="flex w-full justify-between items-center p-3">
+                  {!showNewCategory && (
+                    <button
+                      onClick={handleNewCategory}
+                      className="btn-primary-no-outline"
+                    >
+                      + New Category
+                    </button>
+                  )}
+                  {showNewCategory && (
+                    <CategorySelection
+                      showNewCategory={showNewCategory}
+                      setShowNewCategory={setShowNewCategory}
+                    />
+                  )}
+                </div>
                 <button
-                  className="btn btn-primary-outline flex m-2"
+                  className="btn btn-primary-outline flex m-2 justify-end"
                   onClick={handleExpenseModal}
                 >
                   + Add New Expense
                 </button>
-                {/* <button className="btn btn-primary-outline flex m-2">
-                  More details
-                </button> */}
               </div>
             </div>
           )}

@@ -30,7 +30,7 @@ const CategorySelection = (props: Props) => {
   };
 
   return (
-    <div className="flex flex-col gap-3 mt-1 py-5">
+    <div className="flex flex-col gap-3 mt-1 py-5 justify-center w-full">
       <input
         ref={titleRef}
         type="text"
@@ -38,22 +38,23 @@ const CategorySelection = (props: Props) => {
         className="w-full sm:w-auto"
         required
       ></input>
-      <div className="flex items-center justify-around">
-        <label htmlFor="color">Pick Color: </label>
+      <div className="flex flex-row items-center justify-center">
+        <label className="m-1" htmlFor="color">
+          Pick a color:
+        </label>
         <input
           id="color"
           type="color"
           ref={colorRef}
           className="w-24 h-10"
         ></input>
-      </div>
-      <div className="flex items-center justify-around">
+
         <button
           type="button"
           onClick={() => {
             addCategoryHandler();
           }}
-          className="btn btn-primary-outline"
+          className=" btn btn-primary-outline m-1"
         >
           Create
         </button>
@@ -63,7 +64,7 @@ const CategorySelection = (props: Props) => {
             e.preventDefault();
             props.setShowNewCategory(false);
           }}
-          className="btn btn-danger"
+          className=" btn btn-danger m-1"
         >
           Cancel
         </button>

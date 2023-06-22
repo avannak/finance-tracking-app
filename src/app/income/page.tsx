@@ -10,11 +10,9 @@ import { useGlobalContext } from "@/context/GlobalContext";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { currencyFormatter } from "@/lib/utils";
 
-interface IncomeHistoryProps {
-  incomeData: IncomeItem[];
-}
+type propTypes = {};
 
-const IncomeHistory: FC<IncomeHistoryProps> = ({ incomeData }) => {
+const IncomeHistory = (props: propTypes) => {
   const { income, setIncome, addIncomeItem, removeIncomeItem } =
     useFinanceContext();
   const { isDeleting } = useGlobalContext();

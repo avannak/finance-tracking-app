@@ -1,22 +1,15 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
-import ExpenseCategoryItem from "../category/ExpenseCategoryItem";
-import { currencyFormatter } from "@/lib/utils";
-import { FaRegTrashAlt } from "react-icons/fa";
 import { useGlobalContext } from "@/context/GlobalContext";
-import {
-  IncomeItem,
-  useFinanceContext,
-  financeContextTypes,
-} from "@/context/store/FinanceContext";
 import { useAuthContext } from "@/context/store/AuthContext";
-import { toast } from "react-toastify";
-import { formatDate } from "@/utils/formatDate";
+import { useFinanceContext } from "@/context/store/FinanceContext";
 import {
   useAddIncomeHandler,
   useDeleteIncomeHandler,
 } from "@/hooks/FinanceHandlers";
+import { currencyFormatter } from "@/lib/utils";
+import { useRef } from "react";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 type Props = {};
 

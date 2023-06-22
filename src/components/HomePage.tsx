@@ -17,6 +17,8 @@ import ViewExpenseModal from "@/components/modal/ViewExpenseModal";
 import { formatDate } from "@/utils/formatDate";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useDeleteIncomeHandler } from "@/hooks/FinanceHandlers";
+import CategorySelection from "./category/CategorySelection";
+import Link from "next/link";
 
 type Props = {};
 
@@ -36,6 +38,11 @@ const HomePage = (props: Props) => {
   const [balance, setBalance] = useState(0);
   const [incomeStatus, setIncomeStatus] = useState(0);
   const [expensesStatus, setExpensesStatus] = useState(0);
+  // Create New Category State
+  const [newCategoryTitle, setNewCategoryTitle] = useState("");
+  const [newCategoryColor, setNewCategoryColor] = useState("#ffffff");
+  const [showNewCategory, setShowNewCategory] = useState(false);
+
   const [latestIncomeList, setLatestIncomeList] = useState<
     IncomeItem[] | null
   >();
@@ -60,6 +67,12 @@ const HomePage = (props: Props) => {
   const handleViewExpenseModal = (expense: ExpenseItem) => {
     setSelectedExpense(expense);
     setShowViewExpenseModal(true);
+  };
+
+  // Create new Category
+  const handleNewCategory = async () => {
+    setShowNewCategory(true);
+    // console.log("newCategory pressed!");
   };
 
   function convertToDate(dateString: string): Date {
@@ -111,10 +124,8 @@ const HomePage = (props: Props) => {
           <small className="text-gray-400 text-md">My Balance</small>
           <h2 className="text-4xl font-bold">{currencyFormatter(balance)}</h2>
         </section>
-
-        <section className="flex items-center gap-2 py-3"></section>
         {/* Income */}
-        <section className="flex justify-center items-left flex-col cursor-pointer bg-slate-800 rounded-2xl mt-2 mb-2">
+        <section className="flex justify-center items-left flex-col cursor-pointer bg-slate-800 rounded-2xl mt-4 mb-2">
           <div
             className="flex justify-between rounded-2xl items-center bg-slate-800 h-full w-full p-4"
             onClick={() => setShowIncome(!showIncome)}
@@ -168,12 +179,11 @@ const HomePage = (props: Props) => {
           {showIncome && (
             <div className="m-4">
               <div className="flex w-full justify-between items-center text-center">
-                <button
-                  className="btn btn-primary flex m-2"
-                  onClick={handleIncomeModal}
-                >
-                  Income history
-                </button>
+                <Link href="/income">
+                  <button className="btn btn-primary flex m-2">
+                    Income history
+                  </button>
+                </Link>
                 <p className="flex items-center gap-2 text-xl p-1">
                   Total: {currencyFormatter(incomeStatus)}
                 </p>
@@ -238,7 +248,22 @@ const HomePage = (props: Props) => {
                   Total Expenses: {currencyFormatter(expensesStatus)}
                 </p>
               </div>
-              <div className="flex w-full justify-end items-center">
+              <div className="flex w-full justify-between items-center p-3">
+                {!showNewCategory && (
+                  <button
+                    onClick={handleNewCategory}
+                    className="btn-primary-no-outline"
+                  >
+                    + New Category
+                  </button>
+                )}
+                {showNewCategory && (
+                  <CategorySelection
+                    showNewCategory={showNewCategory}
+                    setShowNewCategory={setShowNewCategory}
+                  />
+                )}
+
                 <button
                   className="btn btn-primary-outline flex m-2"
                   onClick={handleExpenseModal}

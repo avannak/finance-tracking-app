@@ -34,9 +34,9 @@ const GlobalContext = createContext<ContextTypes>({
   setShowViewExpenseModal: () => {},
   isDeleting: false,
   setIsDeleting: () => {},
-  showExpenses: false,
+  showExpenses: true,
   setShowExpenses: () => {},
-  showIncome: false,
+  showIncome: true,
   setShowIncome: () => {},
   showNewExpenseModal: false,
   setShowNewExpenseModal: () => {},
@@ -48,8 +48,8 @@ export const GlobalContextProvider = ({ children }: any) => {
   const [showExpenseModal, setShowExpenseModal] = useState(false);
   const [showViewExpenseModal, setShowViewExpenseModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [showExpenses, setShowExpenses] = useState(false);
-  const [showIncome, setShowIncome] = useState(false);
+  const [showExpenses, setShowExpenses] = useState(true);
+  const [showIncome, setShowIncome] = useState(true);
   const [showNewExpenseModal, setShowNewExpenseModal] = useState(false);
   return (
     <GlobalContext.Provider

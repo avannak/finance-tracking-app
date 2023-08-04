@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import React from "react";
-import piggyBank from "public/images/piggy-bank.jpg";
+import piggyBank from "public/images/piggy-bank.webp";
 import { FcGoogle } from "react-icons/fc";
 import { useAuthContext } from "@/context/store/AuthContext";
 import { redirect } from "next/navigation";

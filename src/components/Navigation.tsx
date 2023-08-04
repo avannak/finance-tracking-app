@@ -6,57 +6,102 @@ import { ImStatsBars } from "react-icons/im";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { BsPlusSquareFill } from "react-icons/bs";
 
-type Props = {};
+type Props = {
+  className?: string;
+};
 
 const Navigation = (props: Props) => {
   const { user, loading, logout } = useAuthContext();
-
   return (
-    <header className="container max-w-2xl px-3 py-6 mx-auto">
-      <div className="flex justify-between">
-        {/* User Information */}
-        {user && !loading && (
-          <div className="flex items-center gap-2">
-            {/* img */}
-            <div className="h-[40px] w-[40px] rounded-full overflow-hidden">
-              <button>
-                <Image
-                  className="object-cover w-full h-full"
-                  // src="https://thispersondoesnotexist.com/"
-                  src={user.photoURL || "https://thispersondoesnotexist.com/"}
-                  alt={user.displayName || "Unknown User"}
-                  referrerPolicy="no-referrer"
-                  height={500}
-                  width={500}
-                />
-              </button>
-            </div>
+    user && (
+      <div
+        className={`fixed flex flex-col h-full w-64 bg-zinc-900 border border-gray-800 ${props.className}`}
+      >
+        <header className="">
+          <div className="flex justify-between">
+            {/* User Information */}
+            {user && !loading && (
+              <div className="flex items-center gap-2">
+                {/* img */}
+                <div className="h-[40px] w-[40px] rounded-full overflow-hidden">
+                  <button>
+                    <Image
+                      className="object-cover w-full h-full"
+                      // src="https://thispersondoesnotexist.com/"
+                      src={
+                        user.photoURL || "https://thispersondoesnotexist.com/"
+                      }
+                      alt={user.displayName || "Unknown User"}
+                      referrerPolicy="no-referrer"
+                      height={500}
+                      width={500}
+                    />
+                  </button>
+                </div>
 
-            {/* name */}
-            <small>Hello, {user.displayName}</small>
-          </div>
-        )}
+                {/* name */}
+                <small>Hello, {user.displayName}</small>
+              </div>
+            )}
 
-        {/* Right side of navigation */}
-        {user && !loading && (
-          <nav className="flex items-center gap-2">
-            <div>
-              {/* <button className="m-1">
+            {/* Right side of navigation */}
+            {user && !loading && (
+              <nav className="flex items-center gap-2">
+                <div>
+                  {/* <button className="m-1">
                 <BsPlusSquareFill className="text-2xl" />
               </button> */}
-              <button className="m-1">
-                <ImStatsBars className="text-2xl" />
-              </button>
-            </div>
-            <div>
-              <button type="button" onClick={logout} className="btn btn-danger">
-                Sign Out
-              </button>
-            </div>
-          </nav>
-        )}
+                </div>
+              </nav>
+            )}
+          </div>
+        </header>
+        <nav className=" bg-zinc-900 border-r border-zinc-800 h-screen w-64 fixed top-0 left-0 overflow-y-auto">
+          <div className="p-4">
+            <button className="w-full text-left flex items-center text-2xl">
+              <span className="mr-2">📊</span>
+              Overview
+            </button>
+          </div>
+          <ul className="list-none p-4">
+            <li>
+              <a
+                href="#goals"
+                className="text-white hover:text-gray-300 block py-2"
+              >
+                Goals
+              </a>
+            </li>
+            <li>
+              <a
+                href="#budgets"
+                className="text-white hover:text-gray-300 block py-2"
+              >
+                Budgets
+              </a>
+            </li>
+            <li>
+              <a
+                href="#trends"
+                className="text-white hover:text-gray-300 block py-2"
+              >
+                Trends
+              </a>
+            </li>
+          </ul>
+          <div className="p-4">
+            <button
+              type="button"
+              onClick={logout}
+              className="btn btn-danger w-full text-left flex items-center text-red-600 hover:text-white py-2"
+            >
+              <span className="mr-2">🚪</span>
+              Sign Out
+            </button>
+          </div>
+        </nav>
       </div>
-    </header>
+    )
   );
 };
 

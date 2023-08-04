@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 import ToastifyProvider from "@/components/toastify/ToastifyProvider";
+import HomePage from "@/components/HomePage";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,8 +28,10 @@ export default async function RootLayout({
           <GlobalContextProvider>
             <FinanceContextProvider>
               <ToastifyProvider />
-              <Navigation />
-              {children}
+              <div className="flex flex-row flex-nowrap">
+                <Navigation className="min-w-[200px]" />
+                <div className="pl-64 flex-grow">{children}</div>
+              </div>
             </FinanceContextProvider>
           </GlobalContextProvider>
         </AuthContextProvider>

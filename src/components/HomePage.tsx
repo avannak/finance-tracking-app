@@ -2,23 +2,24 @@
 import ExpenseCategoryItem from "@/components/category/ExpenseCategoryItem";
 import ExpensePageModal from "@/components/modal/ExpensePageModal";
 import IncomePageModal from "@/components/modal/IncomePageModal";
-import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
-import { useEffect, useRef, useState } from "react";
-import { Doughnut } from "react-chartjs-2";
-import { currencyFormatter } from "../lib/utils";
-ChartJS.register(ArcElement, Tooltip, Legend);
+import ViewExpenseModal from "@/components/modal/ViewExpenseModal";
 import { useGlobalContext } from "@/context/GlobalContext";
 import {
   ExpenseItem,
   IncomeItem,
   useFinanceContext,
 } from "@/context/store/FinanceContext";
-import ViewExpenseModal from "@/components/modal/ViewExpenseModal";
-import { formatDate } from "@/utils/formatDate";
-import { FaRegTrashAlt } from "react-icons/fa";
 import { useDeleteIncomeHandler } from "@/hooks/FinanceHandlers";
-import CategorySelection from "./category/CategorySelection";
+import { formatDate } from "@/utils/formatDate";
+import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { Doughnut } from "react-chartjs-2";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { currencyFormatter } from "../lib/utils";
+import CategorySelection from "./category/CategorySelection";
+import GoalSelection from "./selection/GoalSelection/GoalSelection";
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 type Props = {};
 
@@ -117,10 +118,10 @@ const HomePage = (props: Props) => {
   }, [showExpenses]);
 
   return (
-    <div className="flex items-center container max-w-2xl px-6 py-6 mx-auto ">
-      <main className="container max-w-2xl px-6 max-auto">
+    <div className="grid grid-cols-2 gap-3 container px-6 py-10 mx-auto">
+      <div className="col-span-1">
         {/* My Balance */}
-        <section>
+        <section className="my-10">
           <small className="text-gray-400 text-md">My Balance</small>
           <h2 className="text-4xl font-bold">{currencyFormatter(balance)}</h2>
         </section>
@@ -154,7 +155,10 @@ const HomePage = (props: Props) => {
             ref={containerRef}
           >
             {latestIncomeList?.map((incomeItem, id) => (
-              <div className="flex justify-between item-center p-1" key={id}>
+              <div
+                className="flex justify-between item-center p-1 border-b border-gray-600"
+                key={id}
+              >
                 <div>
                   <p className="font-semibold">{incomeItem.description}</p>
                   <small className="text-xs">
@@ -196,8 +200,8 @@ const HomePage = (props: Props) => {
                   + Add New Income
                 </button>
                 {/* <button className="btn btn-primary-outline flex m-2">
-                  More details
-                </button> */}
+                    More details
+                  </button> */}
               </div>
             </div>
           )}
@@ -275,11 +279,9 @@ const HomePage = (props: Props) => {
             </div>
           )}
         </section>
-
         {/* Stats */}
         <section className="py-6">
           <h3 className="text-2xl">Stats</h3>
-
           {expenses && (
             <div className="flex flex-col gap-4 mt-6 w-full mx-auto h-96">
               <Doughnut
@@ -303,7 +305,51 @@ const HomePage = (props: Props) => {
             </div>
           )}
         </section>
-      </main>
+      </div>
+      <div className="col-span-1">
+        {/* Goals section */}
+        <section className="flex flex-col mt-36 cursor-pointer bg-slate-800 rounded-2xl p-3 w-full items-center">
+          <h3 className="text-2xl p-3">Goals</h3>
+          {/* Content of the goals section */}
+          <div className="grid grid-cols-2">
+            <GoalSelection
+              className="flex flex-wrap w-full"
+              goals={[
+                {
+                  id: "debt",
+                  label: "Lower credit debt",
+                  icon: "FaMoneyCheck",
+                },
+              ]}
+              onSelectGoal={() => console.log("selected: debt")}
+            ></GoalSelection>
+            <GoalSelection
+              className="flex flex-wrap w-full"
+              goals={[
+                { id: "debt", label: "Save For College", icon: "FaSchool" },
+              ]}
+              onSelectGoal={() => console.log("selected: debt")}
+            ></GoalSelection>
+            <GoalSelection
+              className="flex flex-wrap w-full"
+              goals={[{ id: "debt", label: "Buy A Car", icon: "FaCar" }]}
+              onSelectGoal={() => console.log("selected: debt")}
+            ></GoalSelection>
+            <GoalSelection
+              className="flex flex-wrap w-full"
+              goals={[
+                { id: "debt", label: "Something Else", icon: "BsThreeDots" },
+              ]}
+              onSelectGoal={() => console.log("selected: debt")}
+            ></GoalSelection>
+          </div>
+        </section>
+        {/* Spendings section */}
+        <section className="flex flex-col mt-6 cursor-pointer bg-slate-800 rounded-2xl p-3 w-full items-center">
+          <h3 className="text-2xl p-3">Spending</h3>
+          {/* Content of the spendings section */}
+        </section>
+      </div>
 
       {/* Modals */}
       <div

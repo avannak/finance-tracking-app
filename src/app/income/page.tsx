@@ -27,7 +27,7 @@ const IncomeHistory = (props: propTypes) => {
   });
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="flex flex-col max-w-2xl px-6 py-6 mx-auto">
       <Link
         className="btn btn-primary-no-outline hover:text-green-300"
         href="/"

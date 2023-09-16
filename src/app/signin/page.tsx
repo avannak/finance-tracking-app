@@ -17,7 +17,7 @@ const SignIn = (props: Props) => {
   }
 
   return (
-    <div className="container max-w-2xl px-6 py-6 mx-auto flex flex-col items-center">
+    <div className="fixed top-0 left-0 right-0 container max-w-2xl px-6 py-6 mx-auto flex flex-col items-center">
       <Image src={logo} alt="logo" width={300} height={400}></Image>
       <div className="w-full h-full my-6 bg-slate-800 rounded-t-2xl rounded-b-2xl">
         <Image

@@ -35,7 +35,7 @@ const CategorySelection = (props: Props) => {
         ref={titleRef}
         type="text"
         placeholder="Enter a new category..."
-        className="w-full sm:w-auto"
+        className="w-full"
         required
       ></input>
       <div className="flex flex-row items-center justify-center">
@@ -46,7 +46,7 @@ const CategorySelection = (props: Props) => {
           id="color"
           type="color"
           ref={colorRef}
-          className="w-24 h-10"
+          className="min-w-[62px] w-[120px] h-10"
         ></input>
 
         <button

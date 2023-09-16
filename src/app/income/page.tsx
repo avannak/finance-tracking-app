@@ -27,12 +27,12 @@ const IncomeHistory = (props: propTypes) => {
   });
 
   return (
-    <div className="flex flex-col max-w-2xl px-6 py-6 mx-auto">
+    <div className="flex flex-col max-w-2xl px-6 py-6 mx-auto min-w-[500px] lg:flex">
       <Link
         className="btn btn-primary-no-outline hover:text-green-300"
         href="/"
       >
-        Back to Home
+        Back to Overview
       </Link>
       <h1 className="text-4xl font-bold text-center my-8">Income History</h1>
 

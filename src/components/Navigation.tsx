@@ -5,6 +5,7 @@ import { useAuthContext } from "@/context/store/AuthContext";
 import { ImStatsBars } from "react-icons/im";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { BsPlusSquareFill } from "react-icons/bs";
+import Link from "next/link";
 
 type Props = {
   className?: string;
@@ -58,19 +59,22 @@ const Navigation = (props: Props) => {
         </header>
         <nav className=" bg-zinc-900 border-r border-zinc-800 h-screen w-64 fixed top-0 left-0 overflow-y-auto">
           <div className="p-4">
-            <button className="w-full text-left flex items-center text-2xl">
+            <Link
+              href="/"
+              className="w-full text-left flex items-center text-2xl"
+            >
               <span className="mr-2">📊</span>
               Overview
-            </button>
+            </Link>
           </div>
           <ul className="list-none p-4">
             <li>
-              <a
-                href="#goals"
+              <Link
+                href="/income"
                 className="text-white hover:text-gray-300 block py-2"
               >
-                Goals
-              </a>
+                Income History
+              </Link>
             </li>
             <li>
               <a

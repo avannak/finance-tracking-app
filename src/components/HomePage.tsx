@@ -127,7 +127,7 @@ const HomePage = (props: Props) => {
             <h2 className="text-4xl font-bold">{currencyFormatter(balance)}</h2>
           </section>
           {/* Income */}
-          <section className="flex justify-center items-left flex-col cursor-pointer bg-slate-800 rounded-2xl mt-4 mb-2 min-w-[400px] lg:flex">
+          <section className="flex justify-center items-left flex-col cursor-pointer bg-slate-800 rounded-2xl mt-4 mb-2 min-w-[300px] lg:flex">
             <div
               className="flex justify-between rounded-2xl items-center bg-slate-800 h-full w-full p-4"
               onClick={() => setShowIncome(!showIncome)}
@@ -208,7 +208,7 @@ const HomePage = (props: Props) => {
             )}
           </section>
           {/* Expenses */}
-          <section className="flex justify-center items-left flex-col cursor-pointer bg-slate-800 rounded-2xl mt-2 mb-2 min-w-[400px] lg:flex">
+          <section className="flex justify-center items-left flex-col cursor-pointer bg-slate-800 rounded-2xl mt-2 mb-2 min-w-[300px] lg:flex">
             <div
               className="flex justify-between rounded-2xl items-center bg-slate-800 h-full w-full p-4"
               onClick={() => setShowExpenses(!showExpenses)}
@@ -284,7 +284,7 @@ const HomePage = (props: Props) => {
           <section className="py-6">
             <h3 className="text-2xl">Stats</h3>
             {expenses && (
-              <div className="flex flex-col gap-4 mt-6 w-full mx-auto h-96 min-w-[400px] lg:flex">
+              <div className="flex flex-col gap-4 mt-6 w-full mx-auto h-96 min-w-[300px] lg:flex">
                 <Doughnut
                   options={{
                     responsive: true,
@@ -311,7 +311,7 @@ const HomePage = (props: Props) => {
         </div>
         <div className="col-span-1">
           {/* Goals section */}
-          <section className="flex flex-col mt-36 cursor-pointer bg-slate-800 rounded-2xl p-3 w-full items-center min-w-[400px] lg:flex">
+          <section className="flex flex-col mt-36 cursor-pointer bg-slate-800 rounded-2xl p-3 w-full items-center min-w-[300px] lg:flex">
             <h3 className="text-2xl p-3">Goals</h3>
             {/* Content of the goals section */}
             <div className="grid grid-cols-2">
@@ -348,7 +348,7 @@ const HomePage = (props: Props) => {
             </div>
           </section>
           {/* Spendings section */}
-          <section className="flex flex-col mt-6 cursor-pointer bg-slate-800 rounded-2xl p-3 w-full items-center min-w-[400px] lg:flex">
+          <section className="flex flex-col mt-6 cursor-pointer bg-slate-800 rounded-2xl p-3 w-full items-center min-w-[300px] lg:flex">
             <h3 className="text-2xl p-3">Spending</h3>
             {/* Content of the spendings section */}
           </section>

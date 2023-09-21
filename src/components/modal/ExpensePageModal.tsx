@@ -101,7 +101,7 @@ const ExpensePageModal = (props: Props) => {
           <div className="flex flex-col gap-4 mt-6">
             <div className="flex items-center justify-between mx-auto w-full">
               <h1 className="text-center text-2xl font-bold">
-                Select Category for Expense
+                1. Select Category for Expense
               </h1>
               {!showNewCategory && (
                 <button
@@ -136,7 +136,7 @@ const ExpensePageModal = (props: Props) => {
             </div>
           </div>
           <div className="input-group flex flex-col gap-4 mt-6">
-            <h1 className="text-2xl font-bold">Add New Expense</h1>
+            <h1 className="text-2xl font-bold">2. Add New Expense</h1>
             <label htmlFor="expense">
               How much would you like to add to your expense category?
             </label>
@@ -153,7 +153,7 @@ const ExpensePageModal = (props: Props) => {
               required
             ></input>
             <label htmlFor="description">
-              Optional: Add a description for your expense.
+              Please add a description for your expense.
             </label>
             <input
               ref={expenseDescriptionRef}
@@ -161,6 +161,7 @@ const ExpensePageModal = (props: Props) => {
               type="text"
               maxLength={200}
               placeholder="Enter expense description"
+              required
             ></input>
             {parseFloat(expenseAmount) > 0 && selectedCategoryId && (
               <button type="submit" className="btn btn-primary">

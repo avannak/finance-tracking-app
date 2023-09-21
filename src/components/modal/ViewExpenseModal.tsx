@@ -215,7 +215,7 @@ const ViewExpenseModal = (props: Props) => {
                     required
                   ></input>
                   <label htmlFor="description">
-                    Optional: Add a description for your expense.
+                    Please add a description for your expense.
                   </label>
                   <input
                     ref={expenseDescriptionRef}
@@ -223,6 +223,7 @@ const ViewExpenseModal = (props: Props) => {
                     type="text"
                     maxLength={200}
                     placeholder="Enter expense description"
+                    required
                   />
                   <div className="flex m-2">
                     <button type="submit" className="btn btn-primary mr-2">
@@ -296,7 +297,7 @@ const ViewExpenseModal = (props: Props) => {
                   required
                 ></input>
                 <label htmlFor="description">
-                  Optional: Add a description for your expense.
+                  Please add a description for your expense.
                 </label>
                 <input
                   ref={expenseDescriptionRef}
@@ -304,6 +305,7 @@ const ViewExpenseModal = (props: Props) => {
                   type="text"
                   maxLength={200}
                   placeholder="Enter expense description"
+                  required
                 />
                 <div className="flex m-2">
                   <button type="submit" className="btn btn-primary mr-2">

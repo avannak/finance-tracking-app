@@ -11,7 +11,7 @@ import Head from "next/head";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Financy: Empower Your Wallet!",
+  title: "Financy: Empower Your Financial Future!",
   description:
     "Dive into a seamless experience of tracking and managing your finances. Discover where every penny goes, and take control of your financial destiny with Financy.",
 };

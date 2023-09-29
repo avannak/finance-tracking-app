@@ -19,7 +19,6 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { currencyFormatter } from "../lib/utils";
 import CategorySelection from "./category/CategorySelection";
 // import GoalSelection from "./selection/GoalSelection/GoalSelection";
-import RootLayout from "@/app/layout";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 type Props = {};

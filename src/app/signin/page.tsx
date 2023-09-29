@@ -6,9 +6,7 @@ import logo from "public/images/Financy.png";
 import piggyBank from "public/images/piggy-bank.webp";
 import { FcGoogle } from "react-icons/fc";
 
-type Props = {
-  isCentered?: boolean;
-};
+type Props = {};
 
 const SignIn = (props: Props) => {
   const { googleLoginHandler, user, loading } = useAuthContext();

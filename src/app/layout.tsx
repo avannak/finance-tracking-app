@@ -1,13 +1,11 @@
 import Navigation from "@/components/Navigation";
+import ToastifyProvider from "@/components/toastify/ToastifyProvider";
 import { GlobalContextProvider } from "@/context/GlobalContext";
 import AuthContextProvider from "@/context/store/AuthContext";
 import { FinanceContextProvider } from "@/context/store/FinanceContext";
 import { Inter } from "next/font/google";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
-import ToastifyProvider from "@/components/toastify/ToastifyProvider";
-import HomePage from "@/components/HomePage";
 
 const inter = Inter({ subsets: ["latin"] });
 

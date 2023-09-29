@@ -6,6 +6,7 @@ import { FinanceContextProvider } from "@/context/store/FinanceContext";
 import { Inter } from "next/font/google";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
+import Head from "next/head";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,6 +23,11 @@ type LayoutProps = {
 const RootLayout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <html lang="en">
+      <Head>
+        <title>{metadata.title}</title>
+        <meta name="description" content={metadata.description} />
+        <link rel="icon" href="/images/financy.ico" />
+      </Head>
       <body className={inter.className}>
         <AuthContextProvider>
           <GlobalContextProvider>

@@ -13,7 +13,7 @@
 }
 
 .dot-container {
-  position: fixed;
+  position: absolute;
   top: 50%;
   right: calc(100% - 10px - [width of the resizable area]);
   transform: translateY(-50%);

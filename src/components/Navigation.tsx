@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import "react-resizable/css/styles.css";
 import Icon from "./icon/Icon";
-import { FaAngleDoubleRight } from "react-icons/fa";
 
 type Props = {
   className?: string;

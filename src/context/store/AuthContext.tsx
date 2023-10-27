@@ -3,6 +3,7 @@ import { useContext, createContext } from "react";
 import { auth } from "@/lib/firebase";
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useRouter } from "next/navigation";
 
 export interface FirebaseUser {
   uid: string | null;
@@ -26,6 +27,7 @@ export const authContext = createContext<authContextTypes>({
 
 const AuthContextProvider = ({ children }: any) => {
   const [firebaseUser, loading] = useAuthState(auth);
+  const router = useRouter();
 
   const user: FirebaseUser | null = firebaseUser
     ? {
@@ -40,7 +42,7 @@ const AuthContextProvider = ({ children }: any) => {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider)
         .then((result) => {
-          // This gives you a Google Access Token. You can use it to access the Google API.
+          // This gives a Google Access Token. Use it to access the Google API.
           const credential = GoogleAuthProvider.credentialFromResult(result);
           if (credential !== null) {
             // Safe to use credential here
@@ -48,7 +50,7 @@ const AuthContextProvider = ({ children }: any) => {
           }
           // The signed-in user info.
           const user = result.user;
-          // You can retrieve the user's uid with user.uid
+          //  Retrieve the user's uid with user.uid
         })
         .catch((error) => {
           // Handle Errors here.
@@ -69,6 +71,7 @@ const AuthContextProvider = ({ children }: any) => {
     try {
       await signOut(auth);
       localStorage.removeItem(`expenses-${user?.uid}`);
+      router.push("/signin");
     } catch (error) {
       throw error;
     }

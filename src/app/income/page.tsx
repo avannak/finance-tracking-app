@@ -1,14 +1,11 @@
 "use client";
-import React, { FC, useState } from "react";
-import { IncomeItem, useFinanceContext } from "@/context/store/FinanceContext";
-import Link from "next/link";
-import {
-  useAddIncomeHandler,
-  useDeleteIncomeHandler,
-} from "@/hooks/FinanceHandlers";
 import { useGlobalContext } from "@/context/GlobalContext";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { useFinanceContext } from "@/context/store/FinanceContext";
+import { useDeleteIncomeHandler } from "@/hooks/FinanceHandlers";
 import { currencyFormatter } from "@/lib/utils";
+import Link from "next/link";
+import { useState } from "react";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 type propTypes = {};
 

@@ -2,7 +2,7 @@
 const nextConfig = {
   // Enable image support
   images: {
-    domains: ["thispersondoesnotexist.com", "lh3.googleusercontent.com"], // Add the domains where your images are hosted
+    domains: ["thispersondoesnotexist.com", "lh3.googleusercontent.com"], // Add the domains where images are hosted
   },
 };
 

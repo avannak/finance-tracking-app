@@ -1,12 +1,12 @@
-import Navigation from "@/components/Navigation";
 import ToastifyProvider from "@/components/toastify/ToastifyProvider";
 import { GlobalContextProvider } from "@/context/GlobalContext";
 import AuthContextProvider from "@/context/store/AuthContext";
 import { FinanceContextProvider } from "@/context/store/FinanceContext";
 import { Inter } from "next/font/google";
+import Head from "next/head";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
-import Head from "next/head";
+import dynamic from "next/dynamic";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,6 +15,13 @@ export const metadata = {
   description:
     "Dive into a seamless experience of tracking and managing your finances. Discover where every penny goes, and take control of your financial destiny with Financy.",
 };
+
+const DynamicLayoutContent = dynamic(
+  () => import("@/components/DynamicLayoutContent"),
+  {
+    ssr: false,
+  }
+);
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -33,8 +40,7 @@ const RootLayout: React.FC<LayoutProps> = ({ children }) => {
           <GlobalContextProvider>
             <FinanceContextProvider>
               <ToastifyProvider />
-              <Navigation className="min-w-[200px]" />
-              <main>{children}</main>
+              <DynamicLayoutContent>{children}</DynamicLayoutContent>
             </FinanceContextProvider>
           </GlobalContextProvider>
         </AuthContextProvider>

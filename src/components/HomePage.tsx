@@ -35,6 +35,7 @@ const HomePage = (props: Props) => {
     setShowExpenses,
     showIncome,
     setShowIncome,
+    showNav,
   } = useGlobalContext();
   const [balance, setBalance] = useState(0);
   const [incomeStatus, setIncomeStatus] = useState(0);
@@ -118,8 +119,8 @@ const HomePage = (props: Props) => {
   }, [showExpenses]);
 
   return (
-    <div className="pl-64 flex-grow">
-      <div className="container px-6 py-10 mx-auto">
+    <div>
+      <div className=" container px-8 py-10 mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
           <div className="col-span-1 ">
             {/* My Balance */}

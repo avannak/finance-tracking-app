@@ -38,7 +38,7 @@ Fi.nancy is a powerful financial management application designed to empower indi
 ## 🛠️ Getting Started
 
 1. **Clone the Repository**:
-   git clone [Your Repository URL]
+   git clone [Repository URL]
 
 markdown
 Copy code

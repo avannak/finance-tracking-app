@@ -1,12 +1,12 @@
-// Import the functions you need from the SDKs you need
+// Import the functions needed from the SDKs
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore, Firestore } from "firebase/firestore";
 import { getAuth, Auth } from "firebase/auth";
-// TODO: Add SDKs for Firebase products that you want to use
+// TODO: Add SDKs for Firebase products that are needed
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
+// Web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_REACT_APP_API_KEY,

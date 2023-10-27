@@ -22,6 +22,10 @@ export type ContextTypes = {
   setShowIncome: Dispatch<SetStateAction<boolean>>;
   showNewExpenseModal: boolean;
   setShowNewExpenseModal: Dispatch<SetStateAction<boolean>>;
+  showNav: boolean;
+  setShowNav: Dispatch<SetStateAction<boolean>>;
+  navWidth: number;
+  setNavWidth: Dispatch<SetStateAction<number>>;
 };
 
 // Create new Global Context
@@ -40,6 +44,10 @@ const GlobalContext = createContext<ContextTypes>({
   setShowIncome: () => {},
   showNewExpenseModal: false,
   setShowNewExpenseModal: () => {},
+  showNav: true,
+  setShowNav: () => {},
+  navWidth: 300,
+  setNavWidth: () => {},
 });
 
 // Create wrapper for Next.js client side rendering compatibility
@@ -51,6 +59,8 @@ export const GlobalContextProvider = ({ children }: any) => {
   const [showExpenses, setShowExpenses] = useState(true);
   const [showIncome, setShowIncome] = useState(true);
   const [showNewExpenseModal, setShowNewExpenseModal] = useState(false);
+  const [showNav, setShowNav] = useState(false);
+  const [navWidth, setNavWidth] = useState(300);
   return (
     <GlobalContext.Provider
       value={{
@@ -68,6 +78,10 @@ export const GlobalContextProvider = ({ children }: any) => {
         setShowIncome,
         showNewExpenseModal,
         setShowNewExpenseModal,
+        showNav,
+        setShowNav,
+        navWidth,
+        setNavWidth,
       }}
     >
       {children}

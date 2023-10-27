@@ -12,7 +12,7 @@
   }
 
   input {
-    @apply px-4 py-2 bg-slate-600 rounded-xl
+    @apply px-4 py-2 bg-slate-600 rounded-xl;
   }
 }
 
@@ -29,51 +29,51 @@
     @apply bg-slate-700 border-slate-700 text-lime-400 border;
   }
   .btn-primary-outline {
-    @apply border-lime-400 text-lime-400 border
+    @apply border-lime-400 text-lime-400 border;
   }
   .btn-primary-no-outline {
-    @apply  text-lime-400 
+    @apply text-lime-400;
   }
 
   .input-group {
-    @apply flex flex-col gap-4
+    @apply flex flex-col gap-4;
   }
 
   .modal {
-    @apply container mx-auto max-w-2xl h-[80vh] rounded-3xl bg-slate-800 py-6 px-4 overflow-y-auto
+    @apply container mx-auto max-w-2xl h-[80vh] rounded-3xl bg-slate-800 py-6 px-4 overflow-y-auto;
   }
   /* Collapsible */
   .collapsible {
     overflow: hidden;
     transition: max-height 0.3s ease-out;
   }
-  
+
   .expense-item {
     opacity: 0;
     transition: opacity 0.3s ease-out;
   }
-  
+
   .expense-item.active {
     opacity: 1;
   }
   /* Table */
   .table {
-    @apply w-full border-collapse bg-white text-left text-sm text-gray-500
+    @apply w-full border-collapse bg-white text-left text-sm text-gray-500;
   }
 
   .table-head {
-    @apply bg-gray-50
+    @apply bg-gray-50;
   }
 
   .table-header-cell {
-    @apply px-6 py-4 font-medium text-gray-900
+    @apply px-6 py-4 font-medium text-gray-900;
   }
 
   .table-body {
-    @apply divide-y divide-gray-100 border-t border-gray-100
+    @apply divide-y divide-gray-100 border-t border-gray-100;
   }
 
   .table-row {
-    @apply hover:bg-gray-50
+    @apply hover:bg-gray-50;
   }
 }

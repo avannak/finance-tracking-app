@@ -3,7 +3,7 @@
 import { auth } from "@/lib/firebase";
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { authContext, FirebaseUser } from "./AuthContext"; // import from your context provider
+import { authContext, FirebaseUser } from "./AuthContext"; // import from context provider
 
 const AuthComponent = ({ children }: any) => {
   const [firebaseUser, loading] = useAuthState(auth);

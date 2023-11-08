@@ -16,15 +16,11 @@ Fi.nancy is a powerful financial management application designed to empower indi
 
 ```git clone https://github.com/avannak/finance-tracking-app.git```
 
-markdown
-Copy code
 
 2. **Install Dependencies**:
    
 ```npm install```
 
-markdown
-Copy code
 
 3. **Run the Application**:
 
